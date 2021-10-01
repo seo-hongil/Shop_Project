@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shop.model.MemberVO;
 import com.shop.service.MemberService;
@@ -19,31 +20,42 @@ public class MemberController {
 		@Autowired
 		MemberService memberservice;
 		
-	//회원가입 페이지 이동
+		/* 회원가입 페이지 이동 */
 		@GetMapping("/join")
 		public void loginGET() {
-			
-			log.info("회원가입 페이지 진입");
-			
+		
 		}
 		
-		//로그인 페이지 이동
+		/* 로그인 페이지 이동 */
 		@GetMapping("/login")
 		public void joinGET() {
-			
-			log.info("로그인 페이지 진입");
 			
 		}
 		@PostMapping("/join")
 		public String JoinPOST(MemberVO member) throws Exception {
 			
-			log.info("join 진입");
-			
 			memberservice.memberJoin(member);
-			
-			log.info("join service 성공");
 			
 			return "redirect:/main";
 		}
-	
+		
+		/* 아이디 중복 검사 */
+		@PostMapping("/memberIdChk")
+		@ResponseBody
+		public String memberIdChkPOST(String memberId) throws Exception{
+
+			int result = memberservice.idCheck(memberId);
+			
+			log.info("결과값 = " + result);
+			
+			if(result != 0) {
+				
+				return "fail";	// 중복 아이디가 존재
+				
+			} else {
+				
+				return "success";	// 중복 아이디 x
+				
+			}
+		}
 }
