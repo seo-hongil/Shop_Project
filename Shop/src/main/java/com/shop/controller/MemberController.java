@@ -47,8 +47,11 @@ public class MemberController {
 		}
 		@PostMapping("/join")
 		public String JoinPOST(MemberVO member) throws Exception {
+			log.info("회원가입진입");
 			
 			memberservice.memberJoin(member);
+			
+			log.info("회원가입완료");
 			
 			return "redirect:/main";
 		}
@@ -73,6 +76,7 @@ public class MemberController {
 			}
 		}
 		
+/* 메일 전송 코드*/
 //		@GetMapping("/sendMail")
 //	    public void sendMailTest() throws Exception{
 //	        

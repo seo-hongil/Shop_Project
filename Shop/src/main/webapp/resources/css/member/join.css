@@ -114,6 +114,16 @@
 	outline:none;
 }
 
+/* 비밀번호 확인 일치 유효성검사 */
+.pwck_input_ck_1{
+        color : green;
+        display : none;    
+}
+.pwck_input_ck_2{
+        color : red;
+        display : none;    
+}    
+
 /* 이름 영역 */
 .user_wrap{
 	width: 100%;
@@ -297,6 +307,28 @@
     color: white;
     border :none;
 
+}
+
+ 
+/* 유효성 검사 문구 */
+ 
+.final_id_ck{
+    display: none;
+}
+.final_pw_ck{
+    display: none;
+}
+.final_pwck_ck{
+    display: none;
+}
+.final_name_ck{
+    display: none;
+}
+.final_mail_ck{
+    display: none;
+}
+.final_addr_ck{
+    display: none;
 }
 
 /* float 속성 해제 */
