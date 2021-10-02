@@ -13,6 +13,8 @@
 .wrap{
 	width : 800px;
 	margin: auto;
+	color : #8B6331;
+	 text-shadow: 44px 4px 10px #bdbdbd;
 }
 
 /* 페이지 로고 */
@@ -28,7 +30,7 @@
 
 /* 로그인 area */
 .id_input_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
 	height:31px;
 	padding: 10px 14px;	
 	display: block;
@@ -40,6 +42,7 @@
 	height:100%;
 	border:none;
 	font-size:28px;
+	outline:none;
 }
 
 
@@ -47,7 +50,7 @@
 	margin-top: 40px;
 }
 .pw_input_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
 	height:31px;
 	padding: 10px 14px;	
 	display: block;
@@ -59,8 +62,8 @@
 	height:100%;
 	border:none;
 	font-size:28px;
+	outline:none;
 }
-
 
 .login_button_wrap{
 	margin-top: 40px;
@@ -69,11 +72,12 @@
 .login_button{
 	width: 84%;
     height: 80px;
-    background-color: #6AAFE6;
+    background-color: #8B6331;
     font-size: 40px;
     font-weight: 900;
     color: white;
     margin : auto;
+    border : none;
 }
 
 /* float 속성 해제 */

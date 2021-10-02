@@ -20,7 +20,9 @@
 .subjecet{
 	width: 100%;
     height: 120px;
-    background-color: #778899;
+    background-color:  #A0A0C8;
+    color: #ffffff;
+    text-shadow: 2px 8px 6px rgba(0,0,0,0.2), 0px -3px 20px rgba(255,255,255,0.4);
     letter-spacing : 10px;
     text-align : center;
 }
@@ -28,7 +30,6 @@
 .subjecet span{
 	margin-left: 31px;
     font-size: 80px;
-    font-weight: 900;
     color: white;
 }
 
@@ -42,16 +43,17 @@
     font-weight: bold;
 }
 .id_input_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
 	height:31px;
 	padding: 10px 14px;	
-	
+	box-shadow: inset 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
 }
 .id_input{
 	width:100%;
 	height:100%;
 	border:none;
 	font-size:28px;
+	outline:none;
 }
 
 	/* 중복아이디 존재하지 않는경우 */
@@ -76,16 +78,17 @@
     font-weight: bold;
 }
 .pw_input_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
 	height:31px;
 	padding: 10px 14px;	
-	
+	box-shadow: inset 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
 }
 .pw_input{
 	width:100%;
 	height:100%;
 	border:none;
 	font-size:28px;
+	outline:none;
 }
 
 /* 비밀번호 확인 영역 */
@@ -98,16 +101,17 @@
     font-weight: bold;
 }
 .pwck_input_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
 	height:31px;
 	padding: 10px 14px;	
-	
+	box-shadow: inset 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
 }
 .pwck_input{
 	width:100%;
 	height:100%;
 	border:none;
 	font-size:28px;
+	outline:none;
 }
 
 /* 이름 영역 */
@@ -120,16 +124,17 @@
     font-weight: bold;
 }
 .user_input_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
 	height:31px;
 	padding: 10px 14px;	
-	
+	box-shadow: inset 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
 }
 .user_input{
 	width:100%;
 	height:100%;
 	border:none;
 	font-size:28px;
+	outline:none;
 }
 
 /* 메일 영역 */
@@ -142,26 +147,28 @@
     font-weight: bold;
 }
 .mail_input_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
 	height:31px;
 	padding: 10px 14px;	
-	
+	box-shadow: inset 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
 }
 .mail_input{
 	width:100%;
 	height:100%;
 	border:none;
 	font-size:28px;
+	outline:none;
 }
 .mail_check_wrap{
 	margin-top: 20px;	
 }
 .mail_check_input_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
     height: 31px;
     padding: 10px 14px;
     width: 61%;
     float: left;
+    box-shadow: inset 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
 }
 #mail_check_input_box_false{
     background-color:#ebebe4;
@@ -169,15 +176,17 @@
  
 #mail_check_input_box_true{
     background-color:white;
+    box-shadow: inset 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
 }
 .mail_check_input{
 	width:100%;
 	height:100%;
 	border:none;
 	font-size:28px;
+	outline:none;
 }
 .mail_check_button{
-    border: 1px solid black;
+    border: 1px solid #d2d2d3;
     height: 51px;
     width: 30%;
     float: right;
@@ -208,20 +217,22 @@
     font-weight: bold;
 }
 .address_input_1_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
     height: 31px;
     padding: 10px 14px;
     width: 61%;
     float: left;	
+    box-shadow: inset 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
 }
 .address_input_1{
 	width:100%;
 	height:100%;
 	border:none;
 	font-size:28px;	
+	outline:none;
 }
 .address_button{
-    border: 1px solid black;
+    border: 1px solid #d2d2d3;
     height: 51px;
     width: 30%;
     float: right;
@@ -236,16 +247,17 @@
 	margin-top: 20px;
 }
 .address_input_2_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
 	height:31px;
 	padding: 10px 14px;	
-	
+	box-shadow: inset 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
 }
 .address_input_2{
 	width:100%;
 	height:100%;
 	border:none;
 	font-size:28px;
+	outline:none;
 }
 
 .address_input_3_wrap{
@@ -256,17 +268,18 @@
     font-weight: bold;
 }
 .address_input_3_box{
-	border: 1px solid black;
+	border: 1px solid #d2d2d3;
 	height:31px;
 	padding: 10px 14px;	
-	
+	box-shadow: inset 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
 }
 .address_input_3{
 	width:100%;
 	height:100%;
 	border:none;
 	font-size:28px;
-}
+	outline:none;
+} 
 
 /* 가입하기 버튼 */
 .join_button_wrap{
@@ -275,11 +288,15 @@
 }
 .join_button{
 	width: 100%;
-    height: 80px;
-    background-color: #778899;
+	height : 80px;
+     background-color:  #A0A0C8;
+     color: #ffffff;
+     text-shadow: 4px 4px 0px #bdbdbd;
     font-size: 40px;
     font-weight: 900;
     color: white;
+    border :none;
+
 }
 
 /* float 속성 해제 */
