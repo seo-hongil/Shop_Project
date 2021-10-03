@@ -6,7 +6,7 @@
 
 /* 화면 전체 렙 */
 .wrapper{
-	width: 1900px auto;	
+	width: 100%;	
 }
 
 /* content 랩 */
@@ -63,6 +63,13 @@
 	border:none;
 	font-size:28px;
 	outline:none;
+}
+
+/* 로그인 실패시 경고글 */
+.login_warn{
+    margin-top: 30px;
+    text-align: center;
+    color : red;
 }
 
 .login_button_wrap{

@@ -32,7 +32,7 @@
 			<div class="pw_wrap">
 				<div class="pw_name">비밀번호</div>
 				<div class="pw_input_box">
-					<input class="pw_input" name="memberPw">
+					<input class="pw_input" name="memberPw"  placeholder="숫자,영문자 8~20자리">
 				</div>
 				<span class="final_pw_ck">비밀번호를 입력해주세요.</span>
 			</div>
@@ -144,7 +144,7 @@ $(document).ready(function(){
             $('.final_pw_ck').css('display', 'none');
             pwCheck = true;
         }
-        
+ 
         /* 비밀번호 확인 유효성 검사 */
         if(pwck == ""){
             $('.final_pwck_ck').css('display','block');

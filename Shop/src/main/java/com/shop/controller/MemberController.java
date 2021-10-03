@@ -1,6 +1,9 @@
 package com.shop.controller;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.io.File;
 import java.util.Random;
 
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.core.io.FileSystemResource;
@@ -162,4 +166,27 @@ public class MemberController {
 	        
 	        return num;
 	    }	
+		
+		@PostMapping("/login")
+		 public String loginPOST(HttpServletRequest request, MemberVO member, RedirectAttributes rttr) throws Exception{
+	        
+//	        System.out.println("login 메서드 진입");
+//	        System.out.println("전달된 데이터 : " + member);
+	         
+			 HttpSession session = request.getSession();
+			 MemberVO mv = memberservice.memberLogin(member);
+			
+			 if(mv == null) {                                // 일치하지 않는 아이디, 비밀번호 입력 경우
+		            
+		            int result = 0; //  없다 =0 / 있다 =1
+		            rttr.addFlashAttribute("result", result);
+		            return "redirect:/member/login";
+		            
+		        }
+
+		        session.setAttribute("member", mv);             // 일치하는 아이디, 비밀번호 경우 (로그인 성공)
+		        
+		        return "redirect:/main";
+	        
+	    }
 }
