@@ -8,6 +8,11 @@
 <meta charset="UTF-8">
 <title>Welcome Hong ShoppingMall</title>
 <link rel="stylesheet"  href="resources/css/main.css">
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+</script>
 </head>
 <body>
 
@@ -31,7 +36,7 @@
                         		<li><a href="/admin/main">관리자 페이지</a></li>
                     	</c:if>             
 	                    <li>
-	                        로그아웃
+	                        <a id="gnb_logout_button">로그아웃</a>
 	                    </li>
 	                    <li>
 	                        마이페이지
@@ -79,6 +84,23 @@
 		</div>
 	</div>
 </div>
+
+<script>
+ 
+    /* gnb_area 로그아웃 버튼 작동 */
+    $("#gnb_logout_button").click(function(){
+   
+        $.ajax({ //로그아웃 비동기 처리
+        	type:"POST",
+        	url : "/member/logout",
+        	success : function(data){
+        	     alert("로그아웃 되었습니다.");
+        	     document.location.reload();
+        	}
+        })
+    });
+    
+</script>
 
 </body>
 </html>

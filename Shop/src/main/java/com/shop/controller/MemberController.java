@@ -221,4 +221,17 @@ public class MemberController {
 	        
 	        return "redirect:/main";
 	    }
+	   
+	   /* 비동기방식 로그아웃 메서드 */
+	   @PostMapping("/logout")
+	   @ResponseBody
+	    public void logoutPOST(HttpServletRequest request) throws Exception{	        
+	        
+		   log.info("비동기 로그아웃 메서드 진입");
+	        
+	        HttpSession session = request.getSession();
+	        
+	        session.invalidate();
+	        
+	    }
 }
