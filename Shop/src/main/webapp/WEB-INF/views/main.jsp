@@ -14,7 +14,7 @@
 <div class="wrapper">
 	<div class="wrap">
 		<div class="top_gnb_area">
-			<h1>gnb area</h1>
+
 		</div>
 		<div class="top_area">
 			<div class="logo_area">
@@ -37,6 +37,7 @@
                         <span>회원 : ${member.memberName}</span>
                         <span>충전금액 :  <fmt:formatNumber value="${member.money }" pattern="\#,###.##"/></span>
                         <span>포인트 : <fmt:formatNumber value="${member.point }" pattern="#,###" /></span>
+                  		<a href="/member/logout">로그아웃</a>
                     </div>
                 </c:if>
                 

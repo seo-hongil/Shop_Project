@@ -211,4 +211,14 @@ public class MemberController {
 		        }
 	        
 	    }
+		/* 메인페이지 로그아웃 */
+	   @GetMapping("/logout")
+	    public String logoutMainGET(HttpServletRequest request) throws Exception{
+		   	
+		   log.info("logoutMainGET메서드 진입");	        
+	        HttpSession session = request.getSession();
+	        session.invalidate(); //invalidate()는 세션 전체를 무효화, removeAttribute()는 특정 이름으로 네이밍한 session 객체를 삭제하는 메서드
+	        
+	        return "redirect:/main";
+	    }
 }
