@@ -177,7 +177,7 @@ public class MemberController {
 	        return num;
 	    }	
 		
-		@PostMapping("/login")
+		@PostMapping("/login.do")
 		 public String loginPOST(HttpServletRequest request, MemberVO member, RedirectAttributes rttr) throws Exception{
 	        
 //	        System.out.println("login 메서드 진입");
