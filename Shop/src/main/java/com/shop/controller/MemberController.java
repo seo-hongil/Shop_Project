@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.core.io.FileSystemResource;
 
 
@@ -38,6 +39,9 @@ public class MemberController {
 		@Autowired
 		private JavaMailSender mailSender;
 		
+		@Autowired
+	    private BCryptPasswordEncoder pwEncoder;
+		
 		/* 회원가입 페이지 이동 */
 		@GetMapping("/join")
 		public void loginGET() {
@@ -52,7 +56,13 @@ public class MemberController {
 		@PostMapping("/join")
 		public String JoinPOST(MemberVO member) throws Exception {
 			log.info("회원가입진입");
-			
+			 	String Pw = "";            		 // 인코딩 전 비밀번호
+		        String encodePw = "";        // 인코딩 후 비밀번호
+		        
+		        Pw = member.getMemberPw();            		// 비밀번호 데이터 얻음
+		        encodePw = pwEncoder.encode(Pw);        // 비밀번호 인코딩
+		        member.setMemberPw(encodePw);          // 인코딩된 비밀번호 member객체에 다시 저장
+		        
 			memberservice.memberJoin(member);
 			
 			log.info("회원가입완료");
@@ -174,19 +184,31 @@ public class MemberController {
 //	        System.out.println("전달된 데이터 : " + member);
 	         
 			 HttpSession session = request.getSession();
-			 MemberVO mv = memberservice.memberLogin(member);
+			 String Pw = "";
+		     String encodePw = "";
+			 
+		     MemberVO mv = memberservice.memberLogin(member);
 			
-			 if(mv == null) {                                // 일치하지 않는 아이디, 비밀번호 입력 경우
+			 if(mv != null) {                                // 일치하는 아이디가 있을 경우
 		            
-		            int result = 0; //  없다 =0 / 있다 =1
-		            rttr.addFlashAttribute("result", result);
-		            return "redirect:/member/login";
+				 	Pw = member.getMemberPw();        	// 사용자가 로그인 시 제출한 비밀번호
+		            encodePw = mv.getMemberPw();        // 데이터베이스에 저장한 인코딩된 비밀번호
 		            
+		            if(true == pwEncoder.matches(Pw, encodePw)) {        // 비밀번호 일치여부 판단
+		            	
+		            	mv.setMemberPw("");                    	// 인코딩된 비밀번호 정보 노출 위험있어서 지움
+		                session.setAttribute("member", mv);     // session에 사용자의 정보 저장
+		                return "redirect:/main";       
+		                
+		            } else {													// 입력한 pw와 저장된 pw가 다를 경우
+		            	 rttr.addFlashAttribute("result", 0);            
+		                 return "redirect:/member/login";   
+		            }
+		            
+		        }else {     					                           		// 일치하지 않는 아이디가 없을 경우
+		        	  rttr.addFlashAttribute("result", 0);
+		        	  return "redirect:/member/login";
 		        }
-
-		        session.setAttribute("member", mv);             // 일치하는 아이디, 비밀번호 경우 (로그인 성공)
-		        
-		        return "redirect:/main";
 	        
 	    }
 }
