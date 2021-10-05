@@ -50,7 +50,7 @@
 		</div>
 		<div class="top_area">
 			<div class="logo_area">
-				<h1>logo area</h1>
+				<a href="/main"><img src="resources/img/logo.png"></a>
 			</div>
 			<div class="search_area">
 				<h1>Search area</h1>
@@ -82,8 +82,10 @@
 		<div class="content_area">
 			<h1>content area</h1>
 		</div>
-	</div>
-</div>
+		
+	 <%@ include file="../include/footer.jsp" %>   
+	</div> <!--  wrap -->
+</div> <!-- wrapper -->
 
 <script>
  
