@@ -25,6 +25,9 @@ public class GoodsVO {
 	/* 상품 할인률(백분율) */
 	private double goodDiscount;
 	
+	/* 상품 게시일 */
+	private String postedDate;
+	
 	/* 상품 소개 */
 	private String goodIntro;
 	
@@ -37,8 +40,6 @@ public class GoodsVO {
 	/* 수정 날짜 */
 	private Date updateDate;
 
-	
-	
 	public int getGoodId() {
 		return goodId;
 	}
@@ -95,6 +96,14 @@ public class GoodsVO {
 		this.goodDiscount = goodDiscount;
 	}
 
+	public String getPostedDate() {
+		return postedDate;
+	}
+
+	public void setPostedDate(String postedDate) {
+		this.postedDate = postedDate;
+	}
+
 	public String getGoodIntro() {
 		return goodIntro;
 	}
@@ -131,8 +140,9 @@ public class GoodsVO {
 	public String toString() {
 		return "GoodsVO [goodId=" + goodId + ", goodName=" + goodName + ", cateCode=" + cateCode + ", cateName="
 				+ cateName + ", goodPrice=" + goodPrice + ", goodStock=" + goodStock + ", goodDiscount=" + goodDiscount
-				+ ", goodIntro=" + goodIntro + ", goodContents=" + goodContents + ", regDate=" + regDate
-				+ ", updateDate=" + updateDate + "]";
-	}	
+				+ ", postedDate=" + postedDate + ", goodIntro=" + goodIntro + ", goodContents=" + goodContents
+				+ ", regDate=" + regDate + ", updateDate=" + updateDate + "]";
+	}
+
 	
 }
