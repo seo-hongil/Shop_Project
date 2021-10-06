@@ -91,7 +91,7 @@
                     		</div>
                     		<div class="form_section">
                     			<div class="form_section_title">
-                    				<label>상품 게시일</label>
+                    				<label>상품 생산일</label>
                     			</div>
                     			<div class="form_section_content">
                     				<input name="postedDate"  autocomplete="off" readonly="readonly">

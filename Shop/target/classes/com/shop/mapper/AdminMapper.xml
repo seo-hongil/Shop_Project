@@ -15,4 +15,35 @@
   		select * from shop_bcate order by catecode
   	</select>
   	
+  	<!-- 상품 리스트 -->
+  	<select id="goodsGetList"  resultType="com.shop.model.GoodsVO">	
+	  	<![CDATA[
+		select * from(
+		    select /*+INDEX_DESC(shop_goods SYS_C008590)*/ rownum as rn, goodId, goodName,
+		        (select cateName from shop_bcate where shop_goods.cateCode = shop_bcate.cateCode) cateName, goodStock, regDate
+		    from shop_goods 
+		    where 
+		]]>    
+			
+		    <if test="keyword != null">
+			    goodName like '%' || #{keyword} || '%' and			    
+		    </if>
+		     
+		<![CDATA[    
+		    rownum <= #{pageNum} * #{amount} 
+		    )
+		where rn > (#{pageNum} -1) * #{amount}		  	
+  		]]>
+  	</select>
+  	
+  	<!-- 상품 총 개수 -->
+  	<select id="goodsGetTotal" resultType="int">
+  	
+  		select count(*) from shop_goods
+  		
+  		<if test="keyword != null">
+  		
+  			where goodName like '%' || #{keyword} || '%'
+  		</if>		
+  	</select> 
   </mapper>

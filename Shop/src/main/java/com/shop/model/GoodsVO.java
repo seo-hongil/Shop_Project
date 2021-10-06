@@ -11,7 +11,7 @@ public class GoodsVO {
 	private int goodPrice;					// 상품 가격
 	private int goodStock;				// 상품 재고
 	private double goodDiscount;	// 상품 할인률(백분율)
-	private String postedDate;		// 상품 게시일
+	private String postedDate;		// 상품 생산일
 	private String goodIntro;			// 상품 소개
 	private String goodContents;		//상품 상세 설명
 	private Date regDate;					// 등록 날짜

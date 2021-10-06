@@ -19,6 +19,7 @@ create table SHOP_GOODS(
     goodId number generated as identity (start with 1) primary key,
     goodName varchar2(50)   not null,
     cateCode varchar2(30),
+    postedDate date not null,
     goodPrice number not null,
     goodStock number not null,
     goodDiscount number(2,2),

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.shop.mapper.AdminMapper;
 import com.shop.model.CateVO;
+import com.shop.model.Criteria;
 import com.shop.model.GoodsVO;
 
 import lombok.extern.log4j.Log4j;
@@ -31,5 +32,17 @@ public class AdminServiceImpl implements AdminService{
 		log.info("(service)cateList........");
 		
 		return adminMapper.cateList();
+	}
+
+	@Override
+	public List<GoodsVO> goodsGetList(Criteria cri) {
+		log.info("goodsGetTotalList()..........");
+		return adminMapper.goodsGetList(cri);
+	}
+
+	@Override
+	public int goodsGetTotal(Criteria cri) {
+		log.info("goodsGetTotal().........");
+		return adminMapper.goodsGetTotal(cri);
 	}
 }

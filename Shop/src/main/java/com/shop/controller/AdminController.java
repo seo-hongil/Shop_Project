@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shop.model.Criteria;
 import com.shop.model.GoodsVO;
+import com.shop.model.PageDTO;
 import com.shop.service.AdminService;
 
 import lombok.extern.log4j.Log4j;
@@ -66,8 +68,21 @@ public class AdminController {
 	    
 	    /* 상품 관리 페이지 접속 */
 		  @GetMapping("/goodsManage")
-	    public void goodsManageGET() throws Exception{
+	    public void goodsManageGET(Criteria cri, Model model) throws Exception{
 	        log.info("상품 관리 페이지 접속");
+	        
+	        /* 상품 리스트 데이터 */
+			List list = adminService.goodsGetList(cri);
+			
+			if(!list.isEmpty()) {
+				model.addAttribute("list", list);
+			} else {
+				model.addAttribute("listCheck", "empty");
+				return;
+			}
+			
+			/* 페이지 인터페이스 데이터 */
+			model.addAttribute("pageMaker", new PageDTO(cri, adminService.goodsGetTotal(cri)));
 	    }   
 	   
 }
