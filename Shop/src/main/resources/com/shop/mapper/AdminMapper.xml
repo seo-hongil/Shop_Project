@@ -5,10 +5,14 @@
   <mapper namespace="com.shop.mapper.AdminMapper">
 
   <!-- 상품 등록 -->
-  	<insert id="goodsEnroll">
-  	
+  	<insert id="goodsEnroll">	
   		insert into shop_goods(goodName, cateCode, goodPrice, goodStock, goodDiscount, postedDate, goodIntro, goodContents)
 		values(#{goodName},#{cateCode},#{goodPrice},#{goodStock},#{goodDiscount}, #{postedDate}, #{goodIntro},#{goodContents})
-
   	</insert>
+  	
+  	<!-- 카테고리 리스트 -->
+  	<select id="cateList" resultType="com.shop.model.CateVO">  	
+  		select * from shop_bcate order by catecode
+  	</select>
+  	
   </mapper>
