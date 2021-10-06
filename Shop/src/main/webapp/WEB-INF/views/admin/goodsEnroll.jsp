@@ -31,6 +31,7 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="goodName">
+                    				<span class="ck_warn goodName_warn">상품명을 입력해주세요.</span>
                     			</div>
                     		</div>   		            
                     		<div class="form_section">
@@ -55,7 +56,8 @@
 										<select class="cate3" name="cateCode">
 											<option selected value="none">선택</option>
 										</select>
-									</div> 
+									</div>
+									<span class="ck_warn cateCode_warn">카테고리를 선택해주세요.</span> 
                     			</div>
                     		</div>          
                     		<div class="form_section">
@@ -64,7 +66,8 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="goodPrice" value="0">
-                    			</div>
+                    				<span class="ck_warn goodPrice_warn">상품 가격을 입력해주세요.</span>
+                    			</div>                			
                     		</div>               
                     		<div class="form_section">
                     			<div class="form_section_title">
@@ -72,7 +75,8 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="goodStock" value="0">
-                    			</div>
+                    				<span class="ck_warn goodStock_warn">상품 재고를 입력해주세요.</span>
+                    			</div>                   			
                     		</div>          
                     		<div class="form_section">
                     			<div class="form_section_title">
@@ -80,6 +84,7 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="goodDiscount" value="0">
+                    			<span class="ck_warn goodDiscount_warn">상품 할인율을 입력해주세요.</span>                    			
                     			</div>                   			
                     		</div>
                     		<div class="form_section">
@@ -88,22 +93,25 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="postedDate"  autocomplete="off" readonly="readonly">
-                    			</div>
+                    				<span class="ck_warn  postedDate_warn">상품 게시일을 입력해주세요.</span>
+                    			</div>	
                     		</div>          		
                     		<div class="form_section">
                     			<div class="form_section_title">
                     				<label>제품 소개</label>
                     			</div>
-                    			<div class="form_section_content">
+                    			<div class="form_section_content bit">
                     				<textarea name="goodIntro" id="goodIntro_textarea"></textarea>
+                    				<span class="ck_warn goodIntro_warn">제품 소개를 입력해주세요.</span>
                     			</div>
                     		</div>        		
                     		<div class="form_section">
                     			<div class="form_section_title">
                     				<label>제품 상세 설명</label>
                     			</div>
-                    			<div class="form_section_content">
+                    			<div class="form_section_content bct">
                     				<textarea name="goodContents" id="goodContents_textarea"></textarea>
+                    				<span class="ck_warn goodContents_warn">제품 상세 설명을 입력해주세요.</span>
                     			</div>
                     		</div>
                    		</form>
@@ -133,7 +141,97 @@ $("#enrollBtn").on("click",function(e){
 	
 	e.preventDefault();
 	
-	enrollForm.submit();
+	// 빈칸 유효성 체크 변수
+	let goodNameCk = false;
+	let postedDateCk = false;
+	let cateCodeCk = false;
+	let priceCk = false;
+	let stockCk = false;
+	let discountCk = false;
+	let introCk = false;
+	let contentsCk = false;
+	
+	// input 태그의 value값에 편리하게 접근하기 위한 유효성 체크 대상 변수
+	let goodName = $("input[name='goodName']").val();
+	let postedDate = $("input[name='postedDate']").val();
+	let cateCode = $("select[name='cateCode']").val();
+	let goodPrice = $("input[name='goodPrice']").val();
+	let goodStock = $("input[name='goodStock']").val();
+	let goodDiscount = $("input[name='goodDiscount']").val();
+	let goodIntro = $(".bit p").html();
+	let goodContents = $(".bct p").html();
+	
+	// 빈칸 유효성 검사
+	if(goodName){
+		$(".goodName_warn").css('display','none');
+		goodNameCk = true;
+	} else {
+		$(".goodName_warn").css('display','block');
+		goodNameCk = false;
+	}
+	
+	if(postedDate){
+		$(".postedDate_warn").css('display','none');
+		postedDateCk = true;
+	} else {
+		$(".postedDate_warn").css('display','block');
+		postedDateCk = false;
+	}	
+	
+	if(cateCode != 'none'){
+		$(".cateCode_warn").css('display','none');
+		cateCodeCk = true;
+	} else {
+		$(".cateCode_warn").css('display','block');
+		cateCodeCk = false;
+	}	
+	
+	if(goodPrice != 0){
+		$(".goodPrice_warn").css('display','none');
+		priceCk = true;
+	} else {
+		$(".goodPrice_warn").css('display','block');
+		priceCk = false;
+	}	
+	
+	if(goodStock != 0){
+		$(".goodStock_warn").css('display','none');
+		stockCk = true;
+	} else {
+		$(".goodStock_warn").css('display','block');
+		stockCk = false;
+	}		
+	
+	if(goodDiscount < 1 && goodDiscount != ''){
+		$(".goodDiscount_warn").css('display','none');
+		discountCk = true;
+	} else {
+		$(".goodDiscount_warn").css('display','block');
+		discountCk = false;
+	}	
+	
+	if(goodIntro != '<br data-cke-filler="true">'){
+		$(".goodIntro_warn").css('display','none');
+		introCk = true;
+	} else {
+		$(".goodIntro_warn").css('display','block');
+		introCk = false;
+	}	
+	
+	if(goodContents != '<br data-cke-filler="true">'){
+		$(".goodContents_warn").css('display','none');
+		contentsCk = true;
+	} else {
+		$(".goodContents_warn").css('display','block');
+		contentsCk = false;
+	}	
+	
+	//검사 후 모두 true면 제출 o / false면 제출 x
+	if(goodNameCk && postedDateCk && cateCodeCk && priceCk && stockCk && discountCk && introCk && contentsCk ){
+		enrollForm.submit();
+	} else {
+		return false;
+	}
 	
 });
 
