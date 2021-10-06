@@ -83,8 +83,10 @@
                     				<label>상품 할인율</label>
                     			</div>
                     			<div class="form_section_content">
-                    				<input name="goodDiscount" value="0">
-                    			<span class="ck_warn goodDiscount_warn">상품 할인율을 입력해주세요.</span>                    			
+                    				<input id="discount_interface" maxlength="2" value="0">
+                    				<input name="goodDiscount" type="hidden" value="0">
+                    				<span class="step_val">할인 가격 : <span class="span_discount"></span></span>
+  		                  			<span class="ck_warn goodDiscount_warn">1~99 숫자를 입력해주세요.</span>                    			
                     			</div>                   			
                     		</div>
                     		<div class="form_section">
@@ -157,7 +159,7 @@ $("#enrollBtn").on("click",function(e){
 	let cateCode = $("select[name='cateCode']").val();
 	let goodPrice = $("input[name='goodPrice']").val();
 	let goodStock = $("input[name='goodStock']").val();
-	let goodDiscount = $("input[name='goodDiscount']").val();
+	let goodDiscount = $("#discount_interface").val();
 	let goodIntro = $(".bit p").html();
 	let goodContents = $(".bct p").html();
 	
@@ -202,7 +204,7 @@ $("#enrollBtn").on("click",function(e){
 		stockCk = false;
 	}		
 	
-	if(goodDiscount < 1 && goodDiscount != ''){
+	if(!isNaN(goodDiscount)){
 		$(".goodDiscount_warn").css('display','none');
 		discountCk = true;
 	} else {
@@ -235,6 +237,150 @@ $("#enrollBtn").on("click",function(e){
 	
 });
 
+
+/* 카테고리 설정 */
+
+// parse() 메소드를 사용해서 json 문자열에서  javascript 객체로 변환
+let cateList = JSON.parse('${cateList}');
+
+// tire에 사용될 각각의 배열과 객체
+let cate1Array = new Array();
+let cate2Array = new Array();
+let cate3Array = new Array();
+
+let cate1Obj = new Object();
+let cate2Obj = new Object();
+let cate3Obj = new Object();
+
+// select 태그에 바로 접근하기 위해 변수로 선언
+let cateSelect1 = $(".cate1");		
+let cateSelect2 = $(".cate2");
+let cateSelect3 = $(".cate3");
+
+// 카테고리 배열 초기화 메서드
+function makeCateArray(obj,array,cateList, tier){
+	for(let i = 0; i < cateList.length; i++){
+		if(cateList[i].tier == tier){
+			obj = new Object();
+			
+			obj.cateName = cateList[i].cateName;
+			obj.cateCode = cateList[i].cateCode;
+			obj.cateParent = cateList[i].cateParent;
+			
+			array.push(obj);				
+			
+		}
+	}
+}	
+
+// tire 1,2,3에 따른 배열 초기화
+makeCateArray(cate1Obj,cate1Array,cateList,1);
+makeCateArray(cate2Obj,cate2Array,cateList,2);
+makeCateArray(cate3Obj,cate3Array,cateList,3);
+
+//대분류를 1번과 2번 선택에 따라 중분류가 나오도록 for문과 jquery 사용
+for(let i = 0; i < cate1Array.length; i++){
+	cateSelect1.append("<option value='"+cate1Array[i].cateCode+"'>" + cate1Array[i].cateName + "</option>");
+}
+
+//중분류 <option> 태그
+$(cateSelect1).on("change",function(){
+	let selectVal1 = $(this).find("option:selected").val();				//tire=1의 select 값자겨오기
+	cateSelect2.children().remove();													// 다른 대분류 선택 시 기존 중,소분류 option 태그를 지움	
+	cateSelect3.children().remove();
+	
+	cateSelect2.append("<option value='none'>선택</option>") 	// 중,소분류에 기본 option 추가
+	cateSelect3.append("<option value='none'>선택</option>");
+	
+	// 대분류 선택에 따른 cateParent값을 가진 중분류 출력
+	for(let i = 0; i < cate2Array.length; i++){
+		if(selectVal1 == cate2Array[i].cateParent){
+			cateSelect2.append("<option value='"+cate2Array[i].cateCode+"'>" + cate2Array[i].cateName + "</option>");	
+		}
+	}
+	});
+
+// 소분류 <option>태그
+$(cateSelect2).on("change",function(){
+	let selectVal2 = $(this).find("option:selected").val();
+	
+	cateSelect3.children().remove();
+	
+	cateSelect3.append("<option value='none'>선택</option>");		
+	
+	for(let i = 0; i < cate3Array.length; i++){
+		if(selectVal2 === cate3Array[i].cateParent){
+			cateSelect3.append("<option value='"+cate3Array[i].cateCode+"'>" + cate3Array[i].cateName + "</option>");	
+		}
+	}
+});	
+
+
+/* 할인율 설정 */
+$("#discount_interface").on("propertychange change keyup paste input", function(){
+	
+	//정수 할인율 입력->실수 할인율로 적용
+	let userInput = $("#discount_interface");
+	let discountInput = $("input[name='goodDiscount']");
+	
+	let discountRate = userInput.val();						// 사용자가 입력할 할인값
+	let sendDiscountRate = discountRate / 100;		// 서버에 전송할 할인값
+	
+	discountInput.val(sendDiscountRate);	   // 정수에서 실수로 할인율 입력
+	
+	//상품가격에 할인율 적용하기
+	let goodsPrice = $("input[name='goodPrice']").val();			// 원가
+	let discountPrice = goodsPrice * (1 - sendDiscountRate);		// 할인가격
+	
+	if(!isNaN(discountRate)){     
+		$(".span_discount").html(discountPrice); // 할인율 적용한 상품가격으로 보내기
+	}	
+});
+
+// 할인율 적용 후 상품 가격 변동의 경우
+$("input[name='goodPrice']").on("change", function(){
+	// 위의 할인율 적용 코드와 동일
+	let userInput = $("#discount_interface");
+	let discountInput = $("input[name='goodDiscount']");
+	
+	let discountRate = userInput.val();						
+	let sendDiscountRate = discountRate / 100;	
+	
+	let goodsPrice = $("input[name='goodPrice']").val();		
+	let discountPrice = goodsPrice * (1 - sendDiscountRate);	
+	
+	if(!isNaN(discountRate)){
+		$(".span_discount").html(discountPrice); 
+	}
+});
+
+
+/* 상품 게시일 DatePicker 사용 */
+
+	// 설정
+const config = {
+		dateFormat: 'yy-mm-dd',
+		showOn : "button",
+		buttonText:"날짜 선택",
+	 	prevText: '이전 달',
+	    nextText: '다음 달',
+	    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	    dayNames: ['일','월','화','수','목','금','토'],
+	    dayNamesShort: ['일','월','화','수','목','금','토'],
+	    dayNamesMin: ['일','월','화','수','목','금','토'],
+	    yearSuffix: '년',
+    	changeMonth: true,
+        changeYear: true
+}
+
+//실행하며 설정 형태 전송
+$(function() {
+  $( "input[name='postedDate']" ).datepicker(config);
+});
+
+
+
 /* textarea 위지윅 사용 */
  
  // 상품 소개	
@@ -251,105 +397,6 @@ ClassicEditor
 		console.error(error);
 });
 
-/* DatePicker 사용 */
- 
- 	// 설정
-	const config = {
-			dateFormat: 'yy-mm-dd',
-			showOn : "button",
-			buttonText:"날짜 선택",
-		 	prevText: '이전 달',
-		    nextText: '다음 달',
-		    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-		    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-		    dayNames: ['일','월','화','수','목','금','토'],
-		    dayNamesShort: ['일','월','화','수','목','금','토'],
-		    dayNamesMin: ['일','월','화','수','목','금','토'],
-		    yearSuffix: '년',
-	    	changeMonth: true,
-	        changeYear: true
-	}
-// 실행하며 설정 형태 전송
-$(function() {
-	  $( "input[name='postedDate']" ).datepicker(config);
-});
-
-
-	/* 카테고리 설정 */
-	
-	// parse() 메소드를 사용해서 json 문자열에서  javascript 객체로 변환
-	let cateList = JSON.parse('${cateList}');
-	
-	// tire에 사용될 각각의 배열과 객체
-	let cate1Array = new Array();
-	let cate2Array = new Array();
-	let cate3Array = new Array();
-	
-	let cate1Obj = new Object();
-	let cate2Obj = new Object();
-	let cate3Obj = new Object();
-	
-	// select 태그에 바로 접근하기 위해 변수로 선언
-	let cateSelect1 = $(".cate1");		
-	let cateSelect2 = $(".cate2");
-	let cateSelect3 = $(".cate3");
-	
-	// 카테고리 배열 초기화 메서드
-	function makeCateArray(obj,array,cateList, tier){
-		for(let i = 0; i < cateList.length; i++){
-			if(cateList[i].tier == tier){
-				obj = new Object();
-				
-				obj.cateName = cateList[i].cateName;
-				obj.cateCode = cateList[i].cateCode;
-				obj.cateParent = cateList[i].cateParent;
-				
-				array.push(obj);				
-				
-			}
-		}
-	}	
-	// tire 1,2,3에 따른 배열 초기화
-	makeCateArray(cate1Obj,cate1Array,cateList,1);
-	makeCateArray(cate2Obj,cate2Array,cateList,2);
-	makeCateArray(cate3Obj,cate3Array,cateList,3);
-	
-	//대분류를 1번과 2번 선택에 따라 중분류가 나오도록 for문과 jquery 사용
-	for(let i = 0; i < cate1Array.length; i++){
-		cateSelect1.append("<option value='"+cate1Array[i].cateCode+"'>" + cate1Array[i].cateName + "</option>");
-	}
-	
-	//중분류 <option> 태그
-	$(cateSelect1).on("change",function(){
-		let selectVal1 = $(this).find("option:selected").val();				//tire=1의 select 값자겨오기
-		cateSelect2.children().remove();													// 다른 대분류 선택 시 기존 중,소분류 option 태그를 지움	
-		cateSelect3.children().remove();
-		
-		cateSelect2.append("<option value='none'>선택</option>") 	// 중,소분류에 기본 option 추가
-		cateSelect3.append("<option value='none'>선택</option>");
-		
-		// 대분류 선택에 따른 cateParent값을 가진 중분류 출력
-		for(let i = 0; i < cate2Array.length; i++){
-			if(selectVal1 == cate2Array[i].cateParent){
-				cateSelect2.append("<option value='"+cate2Array[i].cateCode+"'>" + cate2Array[i].cateName + "</option>");	
-			}
-		}
-		});
-	
-	// 소분류 <option>태그
-	$(cateSelect2).on("change",function(){
-		let selectVal2 = $(this).find("option:selected").val();
-		
-		cateSelect3.children().remove();
-		
-		cateSelect3.append("<option value='none'>선택</option>");		
-		
-		for(let i = 0; i < cate3Array.length; i++){
-			if(selectVal2 === cate3Array[i].cateParent){
-				cateSelect3.append("<option value='"+cate3Array[i].cateCode+"'>" + cate3Array[i].cateName + "</option>");	
-			}
-		}
-	});	
 </script> 	
 </body>
 </html>

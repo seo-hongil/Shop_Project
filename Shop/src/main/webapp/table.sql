@@ -94,3 +94,6 @@ insert into shop_bcate(tier, cateName, cateCode) values (1, '여성', '200000');
         insert into shop_bcate(tier, cateName, cateCode, cateParent) values (3, '구두', '206002','206000');    
         insert into shop_bcate(tier, cateName, cateCode, cateParent) values (3, '슬리퍼', '206003','206000');    
              
+        
+/* 상품 테이블에 카테고리 외래키 추가 */
+	alter table shop_goods add foreign key (cateCode) references shop_bcate(cateCode);        

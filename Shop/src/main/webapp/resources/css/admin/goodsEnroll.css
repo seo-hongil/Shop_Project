@@ -139,10 +139,19 @@ ul{
     text-align-last: center;
 }
 
+/* 할인 가격 문구 */
+.step_val{						
+	display: block;
+    padding-top: 5px;
+    font-weight: 500;
+}
+
+
 /* ckeditor 높이 */
 .ck-content {						
     height: 170px;
 }
+
 
 /* DatePicker */
 /* 캘린더 css 설정 */
