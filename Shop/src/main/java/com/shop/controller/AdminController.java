@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shop.model.Criteria;
 import com.shop.model.GoodsVO;
@@ -34,7 +35,7 @@ public class AdminController {
 		
 		 /* 상품 등록 페이지 접속 */
 	    @GetMapping("/goodsEnroll")
-	    public void goodsEnrollGET(Model model) throws Exception{
+	    public void goodsEnrollGET(Model model) throws  JsonProcessingException{
 	        log.info("상품 등록 페이지 접속");
 	        
 	     // jackson-databind 메소드는 static이 아니라 ObjectMapper 클래스를 인스턴스화해서 사용해야한다.
@@ -84,5 +85,24 @@ public class AdminController {
 			/* 페이지 인터페이스 데이터 */
 			model.addAttribute("pageMaker", new PageDTO(cri, adminService.goodsGetTotal(cri)));
 	    }   
+		  
+		  /* 상품 조회 페이지 */
+			@GetMapping("/goodsDetail")
+			public void goodsGetInfoGET(int goodId, Criteria cri, Model model) throws Exception {
+				
+				log.info("goodsGetInfo()........." + goodId);
+				
+				ObjectMapper mapper = new ObjectMapper();
+				
+				/* 카테고리 리스트 데이터 */
+				model.addAttribute("cateList", mapper.writeValueAsString(adminService.cateList()));
+				
+				/* 목록 페이지 조건 정보 */
+				model.addAttribute("cri", cri);
+				
+				/* 조회 페이지 정보 */
+				model.addAttribute("goodsInfo", adminService.goodsGetDetail(goodId));
+				
+			}
 	   
 }

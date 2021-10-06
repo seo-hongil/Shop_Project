@@ -35,7 +35,11 @@
 	                    		</thead>	
 	                    		<c:forEach items="${list}" var="list">
 	                    		<tr>
-	                    			<td><c:out value="${list.goodId}"></c:out></td>
+	                    			<td>
+											<a class="move" href='<c:out value="${list.goodId}"/>'>
+												<c:out value="${list.goodName}"></c:out>
+											</a>
+									</td>
 	                    			<td><c:out value="${list.goodName}"></c:out></td>
 	                    			<td><c:out value="${list.cateName}"></c:out></td>
 	                    			<td><c:out value="${list.goodStock}"></c:out></td>
@@ -151,6 +155,17 @@ $(".pageMaker_btn a").on("click", function(e){
 	moveForm.submit();
 	
 });
+
+/* 상품 조회 페이지 */
+$(".move").on("click", function(e){
+	
+	e.preventDefault();
+	
+	moveForm.append("<input type='hidden' name='goodId' value='"+$(this).attr("href") + "'>");
+	moveForm.attr("action", "/admin/goodsDetail");
+	moveForm.submit();
+});
+
 </script>
 </body>
 </html>

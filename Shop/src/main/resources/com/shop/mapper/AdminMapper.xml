@@ -46,4 +46,10 @@
   			where goodName like '%' || #{keyword} || '%'
   		</if>		
   	</select> 
+  	
+  	<!-- 상품 조회 페이지 -->
+	<select id="goodsGetDetail" resultType="com.shop.model.GoodsVO">
+		select goodId, goodName, cateCode, postedDate, goodPrice, goodStock, goodDiscount, goodIntro, goodContents, regDate, updateDate 
+		from shop_goods where goodId = #{goodId}
+	</select>
   </mapper>

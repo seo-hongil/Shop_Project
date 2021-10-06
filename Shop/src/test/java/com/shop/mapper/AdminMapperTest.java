@@ -35,14 +35,26 @@ public class AdminMapperTest {
 //		mapper.goodsEnroll(good);
 //	}
 	/* 상품 리스트 & 상품 총 갯수 */
+//	@Test
+//	public void goodsGetListTest() {
+//		
+//		Criteria cri = new Criteria();
+//		
+//		/* 상품 총 갯수 */
+//		int result = mapper.goodsGetTotal(cri);
+//		System.out.println("resutl.........." + result);
+//		
+//		
+//	}
+	/* 상품 조회 페이지 */
 	@Test
-	public void goodsGetListTest() {
+	public void goodsGetDetailTest() {
 		
-		Criteria cri = new Criteria();
+		int goodId = 150;
 		
-		/* 상품 총 갯수 */
-		int result = mapper.goodsGetTotal(cri);
-		System.out.println("resutl.........." + result);
+		GoodsVO result = mapper.goodsGetDetail(goodId);
+		
+		System.out.println("상품 조회 데이터 : " + result);
 		
 		
 	}
