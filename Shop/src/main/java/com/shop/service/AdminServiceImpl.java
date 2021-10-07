@@ -21,7 +21,7 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Override
 	public void goodsEnroll(GoodsVO good) {
-		log.info("(service) goodEnroll");
+		log.info("goodEnroll service 진입");
 		adminMapper.goodsEnroll(good);
 	}
 
@@ -29,28 +29,34 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<CateVO> cateList() {
 		
-		log.info("(service)cateList........");
+		log.info("cateList service 진입");
 		
 		return adminMapper.cateList();
 	}
 
 	@Override
 	public List<GoodsVO> goodsGetList(Criteria cri) {
-		log.info("goodsGetTotalList()..........");
+		log.info("goodsGetTotalList service 진입");
 		return adminMapper.goodsGetList(cri);
 	}
 
 	@Override
 	public int goodsGetTotal(Criteria cri) {
-		log.info("goodsGetTotal().........");
+		log.info("goodsGetTotal service 진입");
 		return adminMapper.goodsGetTotal(cri);
 	}
 
 	@Override
 	public GoodsVO goodsGetDetail(int goodId) {
 
-		log.info("(service)bookGetDetail......." + goodId);
+		log.info("goodsGetDetail" + goodId);
 		
 		return adminMapper.goodsGetDetail(goodId);
+	}
+
+	@Override
+	public int goodsModify(GoodsVO vo) {
+		log.info("goodsModify service 진입");
+		return adminMapper.goodsModify(vo);
 	}
 }

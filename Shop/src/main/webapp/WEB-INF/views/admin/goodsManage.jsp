@@ -37,7 +37,7 @@
 	                    		<tr>
 	                    			<td>
 											<a class="move" href='<c:out value="${list.goodId}"/>'>
-												<c:out value="${list.goodName}"></c:out>
+												<c:out value="${list.goodId}"></c:out>
 											</a>
 									</td>
 	                    			<td><c:out value="${list.goodName}"></c:out></td>
@@ -106,28 +106,40 @@
        <%@ include file="../../include/admin/footer.jsp" %> 
       
 <script>
+
 $(document).ready(function(){
 	
 	let eResult = '<c:out value="${enroll_result}"/>';
-	
+
 	checkResult(eResult);
 	
 	function checkResult(result){
 		
-		if(result == ''){
+		if(eResult == ''){
 			return ;
 		}
 		
 		alert("상품'"+ eResult +"'을 등록하였습니다.");
 		
 	}
+	
+	// 수정 
+	let modify_result = '${modify_result}';
+	
+	if(modify_result == 1){
+		alert("수정 완료");
+	}
 
 });
 
+
+// 각 form 변수에 대입
 let searchForm = $('#searchForm');
 let moveForm = $('#moveForm');
 
+
 /* 검색 버튼 동작 */
+ 
 $("#searchForm button").on("click", function(e){
 	
 	e.preventDefault();
@@ -146,6 +158,7 @@ $("#searchForm button").on("click", function(e){
 
 
 /* 페이지 이동 버튼 */
+
 $(".pageMaker_btn a").on("click", function(e){
 	
 	e.preventDefault();
@@ -156,7 +169,9 @@ $(".pageMaker_btn a").on("click", function(e){
 	
 });
 
+
 /* 상품 조회 페이지 */
+ 
 $(".move").on("click", function(e){
 	
 	e.preventDefault();

@@ -123,15 +123,15 @@
                    		
                    			<div class="btn_section">
                    				<button id="cancelBtn" class="btn">상품 목록</button>
-	                    		<button id="enrollBtn" class="btn enroll_btn">수정 </button>
+	                    		<button id="modifyBtn" class="btn modify_btn">수정 </button>
 	                    	</div> 
                     </div>      
 
                 	
                 	<form id="moveForm" action="/admin/goodsManage" method="get" >
- 						<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
-						<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
-						<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
+ 						<input type="hidden" name="pageNum" value="${cri.pageNum}">
+						<input type="hidden" name="amount" value="${cri.amount}">
+						<input type="hidden" name="keyword" value="${cri.keyword}">
                 	</form>
                 	
                 </div>
@@ -141,11 +141,12 @@
 		$(document).ready(function(){
 			
 			/* 할인율 값 삽입 */
-			let goodDiscount = '<c:out value="${goodsInfo.goodDiscount}"/>' * 100;
-			$("#discount_interface").attr("value", goodDiscount);
+				let goodDiscount = '<c:out value="${goodsInfo.goodDiscount}"/>' * 100;
+				$("#discount_interface").attr("value", goodDiscount);
 		
-			/* 상품생산일 데이터 오류(date 해야되는데 string 하는 오류이 인해 toString으로 잘라서 출력) */
+			
 			/* 출판일 값 가공 */
+				// 상품생산일 데이터 오류(date 해야되는데 string 하는 오류이 인해 toString으로 잘라서 출력)
 				let postedDate = '${goodsInfo.postedDate}';
 				let length = postedDate.indexOf(" ");
 				
@@ -154,7 +155,8 @@
 				$("input[name='postedDate']").attr("value", postedDate);
 				
 				
-				/* 제품 소개 */
+				
+			/* 제품 소개 */	
 				ClassicEditor
 					.create(document.querySelector('#goodIntro_textarea'))
 					.then(editor => {
@@ -165,7 +167,9 @@
 						console.error(error);
 					});
 					
-				/* 제품 상세 설명 */	
+				
+			/* 제품 상세 설명 */	
+				
 				ClassicEditor
 				.create(document.querySelector('#goodContents_textarea'))
 				.then(editor => {
@@ -177,7 +181,7 @@
 					});
 				
 				
-				/* 카테고리 */
+			/* 카테고리 */
 				
 				// goodsEnroll의 카테고리 등록과 동일, 다만 거꾸로 찾아서 진행
 				let cateList = JSON.parse('${cateList}');
@@ -219,7 +223,7 @@
 				let targetCate2 = '';
 				let targetCate3 = '${goodsInfo.cateCode}';
 				
-				/*소분류 */
+			/*소분류 */
 				
 				// targerCate3는 코드만 저장돼 있으니까 cateParent,CateName도 포함된 객체를 생성
 				for(let i = 0; i < cate3Array.length; i++){
@@ -242,7 +246,7 @@
 					}
 				});	
 				
-				/*중분류 */
+			/*중분류 */
 				
 				//소분류와 같은 작업
 				for(let i = 0; i < cate2Array.length; i++){
@@ -265,7 +269,7 @@
 					}
 				});	
 				
-				/* 대분류 */
+			/* 대분류 */
 				// 2개 뿐인 항목을 option 태그에 넣고, 나머지는 cateParent 사용할 거라 따로 변수 선언 x
 				for(let i = 0; i < cate1Array.length; i++){
 					cateSelect1.append("<option value='"+cate1Array[i].cateCode+"'>" + cate1Array[i].cateName + "</option>");
@@ -281,6 +285,21 @@
 		}); //ready
 	
 		
+		/* 목록 이동 버튼 */
+		$("#cancelBtn").on("click", function(e){
+			e.preventDefault();
+			$("#moveForm").submit();	
+		});	
+		
+		
+		/* 수정 페이지 이동 */
+		$("#modifyBtn").on("click", function(e){
+			e.preventDefault();
+			let addInput = '<input type="hidden" name="goodId" value="${goodsInfo.goodId}">';
+			$("#moveForm").append(addInput);
+			$("#moveForm").attr("action", "/admin/goodsModify");
+			$("#moveForm").submit();
+		});	
 			
 			</script>				
 </body>

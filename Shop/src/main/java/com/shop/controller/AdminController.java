@@ -87,7 +87,7 @@ public class AdminController {
 	    }   
 		  
 		  /* 상품 조회 페이지 */
-			@GetMapping("/goodsDetail")
+			@GetMapping({"/goodsDetail", "/goodsModify"})
 			public void goodsGetInfoGET(int goodId, Criteria cri, Model model) throws Exception {
 				
 				log.info("goodsGetInfo()........." + goodId);
@@ -105,4 +105,17 @@ public class AdminController {
 				
 			}
 	   
+			/* 상품 정보 수정 */
+			@PostMapping("/goodsModify")
+			public String goodsModifyPOST(GoodsVO vo, RedirectAttributes rttr) {
+				
+				log.info("goodsModifyPOST.........." + vo);
+				
+				int result = adminService.goodsModify(vo);
+				
+				rttr.addFlashAttribute("modify_result", result);
+				
+				return "redirect:/admin/goodsManage";		
+				
+			}
 }

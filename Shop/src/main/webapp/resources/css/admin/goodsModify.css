@@ -6,19 +6,20 @@
 a{
 	text-decoration: none;
 }
-
 ul{
     list-style: none;
 }
 
 
 /* 화면 전체 렙 */
+
 .wrapper{
 	width: 100%;
 }
 
 
 /* content 랩 */
+
 .wrap{
 	width : 1080px;
 	margin: auto;
@@ -26,20 +27,19 @@ ul{
 
 
 /* 홈페이지 기능 네비 */ 
+
 .top_gnb_area{
 	width: 100%;
     height: 50px;
     background-color: #f0f0f1;
     position:relative;
 }
-
 .top_gnb_area .list{
 	position: absolute;
     top: 0px;
     right: 0;
     
 }
-
 .top_gnb_area .list li{
 	list-style: none;	
     float : left;
@@ -49,15 +49,14 @@ ul{
 }
 
 
-/* 관리제 페이지 상단 현페이지 정보 */
+/* 관리자 페이지 상단 현페이지 정보 */
 
 .admin_top_wrap{
     height:110px;
     line-height: 110px;
     background-color: #5080bd;
-    margin-bottom: 15px;
+    margin-bottom:15px;
 }
-
 .admin_top_wrap>span{
     margin-left: 30px;
     display:inline-block;
@@ -66,11 +65,11 @@ ul{
     font-weight: bolder;
 }
 
-
 /* 관리자 wrap(네비+컨텐츠) */
 
 .admin_wrap{
-   
+    
+    
 }
 
 
@@ -82,14 +81,12 @@ ul{
     float:left;
     height: 100%;
 }
-
 .admin_navi_wrap li{
     display: block;
     height: 80px;
     line-height: 80px;
     text-align: center;
 }
-
 .admin_navi_wrap li a{
     display: block;
     height: 100%;
@@ -99,15 +96,15 @@ ul{
     font-size: 30px;
     font-weight: bolder;
 }
-
 .admin_navi_wrap li a:link {color: black;}
 .admin_navi_wrap li a:visited {color: black;}
 .admin_navi_wrap li a:active {color: black;}
 .admin_navi_wrap li a:hover {color: black;}
- 
-.admin_list_02{
+
+.admin_list_01{
     background-color: #c8c8c8;
 } 
+
 
 
 /* 관리자페이지 컨텐츠 영역 */
@@ -115,13 +112,12 @@ ul{
 .admin_content_wrap{
     width: 80%;
     float:left;
-    min-height: 700px;
+    min-height:700px;  
 }
-
 
 /* 관리자 컨텐츠 제목 영역 */
 
-.admin_content_subject{	
+.admin_content_subject{			
     font-size: 40px;
     font-weight: bolder;
     padding-left: 15px;
@@ -165,16 +161,11 @@ ul{
 }
 
 
-/* 캘린더 css 설정 */
-							
-.ui-datepicker-trigger {			
-    margin-left: 25px;
-    width: 14%;
-    height: 38px;
-    font-weight: 600;
-    background-color: #dfe8f5;
-    font-size: 15px;
-    cursor:pointer;
+/* 할인 가격 문구 */
+.step_val{						
+	display: block;
+    padding-top: 5px;
+    font-weight: 500;
 }
 
 
@@ -184,29 +175,23 @@ ul{
 }
 
 
-/* 버튼 영역 */
+/* DatePicker */
 
-.btn_section{
-	text-align: center;
-	margin: 80px 0;
-}
-
-.btn{
-    min-width: 180px;
-    padding: 4px 30px;
-    font-size: 25px;
+/* 캘린더 css 설정 */
+.ui-datepicker-trigger {						
+    margin-left: 25px;
+    width: 14%;
+    height: 38px;
     font-weight: 600;
-    line-height: 40px;
+    background-color: #dfe8f5;
+    font-size: 15px;
+    cursor:pointer;
+}
+input[name='postedDate'] {
+    width: 80%;
+    text-align: center;
 }
 
-.modify_btn{
-	background-color: #dbdde2;
-	margin-left:15px;
-}
-
-#modifyBtn:hover {
-    background-color: #c9cbd0;
-}
 
 
 /* 카테고리 css 설정 */
@@ -226,19 +211,52 @@ ul{
 }
 
 
+/* 입력란 공란 경고 태그 */
+.ck_warn{						
+	display: none;
+    padding-top: 10px;
+    text-align: center;
+    color: #e05757;
+    font-weight: 300;    
+}
+
+
+/* 버튼 영역 */
+.btn_section{
+	text-align: center;
+	margin: 80px 0;
+}
+
+.btn{
+    min-width: 180px;
+    padding: 4px 30px;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 40px;
+}
+
+.enroll_btn{
+	background-color: #dbdde2;
+	margin-left:15px;
+}
+
+#enrollBtn:hover {
+    background-color: #c9cbd0;
+}
+
+
+
 /* footer navai 영역 */
 
 .footer_nav{
 	width:100%;
 	height:50px;
 }
-
 .footer_nav_container{
 	width: 100%;
 	height: 100%;
 	background-color:#8EC0E4;
 }
-
 .footer_nav_container>ul{
 	font-weight : bold;
 	float:left;
@@ -249,41 +267,33 @@ ul{
 	font-family: dotum;
 	margin-left: 10px;
 }
-
 .footer_nav_container>ul>li{
 	display:inline;
 	width: 45px;
 	height: 19px;
 	padding: 10px 9px 0 10px;
 }
-
 .footer_nav_container>ul>span{
 	margin: 0 4px;
 }
-
-
 /* footer 영역 */
-
 .footer{
 	width:100%;
 	height:130px;
 	background-color:#D4DFE6;
 	padding-bottom : 50px;
 }
-
 .footer_container{
 	width: 100%;
 	height: 100%;
 	margin: auto;
 }
-
 .footer_left>img {
 	width: 150%;
     height: 130px;
     margin-left: -20px;
     margin-top: -12px;
 }
-
 .footer_left{
 	float :left;
 	width: 170px;
@@ -291,14 +301,12 @@ ul{
 	margin-top : 30px;
 	
 }
-
 .footer_right{
 	float :left;
 	width: 680px;
 	margin-left: 70px;
 	margin-top : 30px;
 }
-
 
 
 /* float 속성 해제 */

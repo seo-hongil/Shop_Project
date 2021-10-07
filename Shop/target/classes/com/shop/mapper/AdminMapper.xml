@@ -52,4 +52,11 @@
 		select goodId, goodName, cateCode, postedDate, goodPrice, goodStock, goodDiscount, goodIntro, goodContents, regDate, updateDate 
 		from shop_goods where goodId = #{goodId}
 	</select>
+	
+	<!-- 상품 정보 수정 -->
+	<update id="goodsModify">	
+		update shop_goods set goodName = #{goodName}, cateCode = ${cateCode}, postedDate = #{postedDate}, 
+		goodPrice = #{goodPrice}, goodStock = #{goodStock}, goodDiscount = #{goodDiscount}, goodIntro = #{goodIntro}, goodContents = #{goodContents}, updateDate = sysdate
+		where goodId = ${goodId}
+	</update>
   </mapper>

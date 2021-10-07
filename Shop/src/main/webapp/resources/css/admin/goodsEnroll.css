@@ -9,16 +9,25 @@ a{
 ul{
     list-style: none;
 }
+
+
 /* 화면 전체 렙 */
+
 .wrapper{
 	width: 100%;
 }
+
+
 /* content 랩 */
+
 .wrap{
 	width : 1080px;
 	margin: auto;
 }
+
+
 /* 홈페이지 기능 네비 */ 
+
 .top_gnb_area{
 	width: 100%;
     height: 50px;
@@ -39,7 +48,9 @@ ul{
     cursor: pointer;
 }
 
+
 /* 관리제 페이지 상단 현페이지 정보 */
+
 .admin_top_wrap{
     height:110px;
     line-height: 110px;
@@ -53,13 +64,17 @@ ul{
     font-size: 50px;
     font-weight: bolder;
 }
+
 /* 관리자 wrap(네비+컨텐츠) */
+
 .admin_wrap{
     
     
 }
 
+
 /* 관리자페이지 네비 영역 */
+
 .admin_navi_wrap{
     width: 20%;
     height: 300px;
@@ -91,13 +106,18 @@ ul{
 } 
 
 
+
 /* 관리자페이지 컨텐츠 영역 */
+
 .admin_content_wrap{
     width: 80%;
     float:left;
     min-height:700px;  
 }
-.admin_content_subject{			/* 관리자 컨텐츠 제목 영역 */
+
+/* 관리자 컨텐츠 제목 영역 */
+
+.admin_content_subject{			
     font-size: 40px;
     font-weight: bolder;
     padding-left: 15px;
@@ -106,7 +126,10 @@ ul{
     line-height: 80px;
     color: white;	
 }
+
+
 /* 관리자 컨텐츠 메인 영역 */
+
 .form_section{
 	width: 95%;
     margin-left: 2%;
@@ -114,24 +137,29 @@ ul{
     border: 1px solid #dbdde2;
     background-color: #efefef;	
 }
+
 .form_section_title{
 	padding: 20px 35px;	
 }
+
 .form_section_title label{
 	display: block;
     font-size: 20px;
     font-weight: 800;
 }
+
 .form_section_content{
 	padding: 20px 35px;
     border-top: 1px solid #dbdde2;	
 }
+
 .form_section_content input{
 	width: 98%;
     height: 25px;
     font-size: 20px;
     padding: 5px 1%;
 }
+
 .form_section_content select{
 	width: 98%;
     height: 35px;
@@ -154,6 +182,7 @@ ul{
 
 
 /* DatePicker */
+
 /* 캘린더 css 설정 */
 .ui-datepicker-trigger {						
     margin-left: 25px;
@@ -170,7 +199,9 @@ input[name='postedDate'] {
 }
 
 
+
 /* 카테고리 css 설정 */
+
 .form_section_content select {		
     width: 92%;
     height: 35px;
@@ -201,6 +232,7 @@ input[name='postedDate'] {
 	text-align: center;
 	margin: 80px 0;
 }
+
 .btn{
     min-width: 180px;
     padding: 4px 30px;
@@ -208,10 +240,12 @@ input[name='postedDate'] {
     font-weight: 600;
     line-height: 40px;
 }
+
 .enroll_btn{
 	background-color: #dbdde2;
 	margin-left:15px;
 }
+
 #enrollBtn:hover {
     background-color: #c9cbd0;
 }
@@ -219,6 +253,7 @@ input[name='postedDate'] {
 
 
 /* footer navai 영역 */
+
 .footer_nav{
 	width:100%;
 	height:50px;
