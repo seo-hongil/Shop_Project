@@ -235,15 +235,22 @@ input[name='postedDate'] {
     line-height: 40px;
 }
 
-.enroll_btn{
+.modify_btn{
 	background-color: #dbdde2;
 	margin-left:15px;
 }
 
-#enrollBtn:hover {
+#modifyBtn:hover {
     background-color: #c9cbd0;
 }
 
+.delete_btn{
+	background-color: #efcdcd;
+}
+
+.delete_btn:hover{
+	background-color : #e4a7a7;
+}
 
 
 /* footer navai 영역 */

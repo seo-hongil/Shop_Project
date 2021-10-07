@@ -109,13 +109,27 @@ public class AdminController {
 			@PostMapping("/goodsModify")
 			public String goodsModifyPOST(GoodsVO vo, RedirectAttributes rttr) {
 				
-				log.info("goodsModifyPOST.........." + vo);
+				log.info("goodsModifyPOST" + vo);
 				
 				int result = adminService.goodsModify(vo);
 				
 				rttr.addFlashAttribute("modify_result", result);
 				
 				return "redirect:/admin/goodsManage";		
+				
+			}
+			
+			/* 상품 정보 삭제 */
+			@PostMapping("/goodsDelete")
+			public String goodsDeletePOST(int goodId, RedirectAttributes rttr) {
+				
+				log.info("goodsDeletePOST controller 진입 ");
+				
+				int result = adminService.goodsDelete(goodId);
+				
+				rttr.addFlashAttribute("delete_result", result);
+				
+				return "redirect:/admin/goodsManage";
 				
 			}
 }

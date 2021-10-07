@@ -59,4 +59,12 @@ public class AdminServiceImpl implements AdminService{
 		log.info("goodsModify service 진입");
 		return adminMapper.goodsModify(vo);
 	}
+
+	@Override
+	public int goodsDelete(int goodId) {
+			
+		log.info("goodsDelete service 진입");
+		
+		return adminMapper.goodsDelete(goodId);
+	}
 }

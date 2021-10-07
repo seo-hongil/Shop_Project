@@ -117,8 +117,9 @@
                     		<input type="hidden" name='goodId' value="${goodsInfo.goodId}">
                    		</form>
                    			<div class="btn_section">
-                   				<button id="cancelBtn" class="btn">취 소</button>
-	                    		<button id="modifyBtn" class="btn modify_btn">수 정</button>
+                   				<button id="cancelBtn"   class="btn">취 소</button>
+	                    		<button id="modifyBtn"  class="btn modify_btn">수 정</button>
+	                    		<button id="deleteBtn"   class="btn delete_btn">삭 제</button>
 	                    	</div> 
                     </div>  
                 	<form id="moveForm" action="/admin/goodsDetail" method="get" >
@@ -516,7 +517,17 @@
 			
 			});// if
 		
-		
+			/* 삭제 버튼 */
+			$("#deleteBtn").on("click", function(e){
+				e.preventDefault();
+				let moveForm = $("#moveForm");
+				
+				moveForm.find("input").remove();
+				moveForm.append('<input type="hidden" name="goodId" value="${goodsInfo.goodId}">');
+				moveForm.attr("action", "/admin/goodsDelete");
+				moveForm.attr("method", "post");
+				moveForm.submit();
+			});
 	</script> 		
 </body>
 </html>

@@ -59,4 +59,10 @@
 		goodPrice = #{goodPrice}, goodStock = #{goodStock}, goodDiscount = #{goodDiscount}, goodIntro = #{goodIntro}, goodContents = #{goodContents}, updateDate = sysdate
 		where goodId = ${goodId}
 	</update>
+	
+	<!-- 상품 정보 삭제 -->
+	<delete id="goodsDelete">	
+		delete from shop_goods where goodId = #{goodId}
+	</delete>
+	
   </mapper>

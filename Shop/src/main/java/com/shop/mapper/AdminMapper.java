@@ -14,4 +14,6 @@ public interface AdminMapper {
 	public int goodsGetTotal(Criteria cri);						//상품 총 개수
 	public GoodsVO goodsGetDetail(int goodId);				//상품 조회 페이지
 	public int goodsModify(GoodsVO vo);							//상품 수정
+	public int goodsDelete(int	goodId);								// 상품 정보 삭제
+
 }
