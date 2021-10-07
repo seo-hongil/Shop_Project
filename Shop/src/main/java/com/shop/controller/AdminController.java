@@ -1,10 +1,14 @@
 package com.shop.controller;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +27,7 @@ import com.shop.model.PageDTO;
 import com.shop.service.AdminService;
 
 import lombok.extern.log4j.Log4j;
+import net.coobird.thumbnailator.Thumbnails;
 
 @Controller
 @RequestMapping("/admin")
@@ -174,8 +179,45 @@ public class AdminController {
 						
 						File saveFile = new File(uploadPath, uploadFileName);			// 파일 위치+파일이름을 합친 file객체
 						
-						try { // transferTo() 메소드는  IOException와 IllegalStateException이 일어날 수 있기 때문에 try~catch를 사용
+						try { // transferTo(), ImageIO는  IOException와 IllegalStateException이 일어날 수 있기 때문에 try~catch를 사용
+							
 							multipartFile.transferTo(saveFile); //파일 저장하는 transferTo() 메소드 사용
+							
+						
+							/* 파일 크기를 크면 유지보수에 부담이 있으니까 처음 보여지는 이미지를 썸네일 이미지로 출력하기 위한 로직 */
+						/*	
+							// ImageIO 클래스 : 이미지 읽어오기 or 생성  /  BufferedImage : 이미지 데이터를 처리or 조작에 필요한 값, 메소드를 제공  /  Graphics2D : 이미지를 만드는데 필요한 설정값, 메소드 제공
+							File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);		// s_파일이름 형식으로 저장
+							
+							BufferedImage bo_image = ImageIO.read(saveFile);	// read()메소드를 사용해서 저장될 파일 변수를 대입
+							
+							// 파일의 크기가 다 다르니까 일정한 비율로 설정하기 위한 변수(ratio,width,height)
+							double ratio = 3;		// 사용자 지정 비율(소수점까지 가능하게 double로 설정) 
+							int width = (int) (bo_image.getWidth() / ratio);	// 파일의 넓이와 높이를 얻기위해 imageIO의 .getWidth(),.getHeight() 메소드 사용한 후 해당 값을 지정 비율로 나누면 됌
+							int height = (int) (bo_image.getHeight() / ratio); // int형을 사용해야하니까 형변환
+							
+							BufferedImage bt_image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);  // 크기를 설정하기 위한 객체 생성(넓이,높이, 생성 시 이미지 타입(int형 값인데 필드 중 원하는 타입으로 설정))
+											
+							Graphics2D graphic = bt_image.createGraphics();	//이미지 만들기 위해 bt_image에 graphics2D 객체 사용( 적용하면 결과가 자동으로 bt_image에 적용)
+							
+							graphic.drawImage(bo_image, 0, 0,300,500, null); //만들고자하는 이미지, x,y값, 넓이, 높이, ImageObserver 객체(이미지 정보를 받아 업데이트 시킴(null 전달하면됌))
+								
+							ImageIO.write(bt_image, "jpg", thumbnailFile);	// write() 메소드를 사용해서 저장(파일로 저장할 이미지, 파일 형식, 이미지 저장 경로+이름인 file 객체) 
+						*/			
+							
+							// 썸네일 파일 만들기 위한 위 과정이 thumbnailFile 라이브러리를 사용하면 간단히 적용가능	
+							File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);	
+							
+							BufferedImage bo_image = ImageIO.read(saveFile);
+
+							double ratio = 3;
+							int width = (int) (bo_image.getWidth() / ratio);
+							int height = (int) (bo_image.getHeight() / ratio);					
+							
+							Thumbnails.of(saveFile)
+					        .size(width, height)
+					        .toFile(thumbnailFile);
+							
 						} catch (Exception e) {
 							e.printStackTrace();
 						} //try~catch
