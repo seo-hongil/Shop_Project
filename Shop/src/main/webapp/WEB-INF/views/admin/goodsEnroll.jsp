@@ -122,6 +122,12 @@
                     			</div>
                     			<div class="form_section_content">
 									<input type="file"  multiple  id ="fileItem"  name='uploadFile'  style="height: 30px;">	
+                    				<div id="uploadResult">
+	                    				<!-- <div id="result_card">
+											<div class="imgDeleteBtn">x</div>
+											<img src="/display?fileName=logo.png">
+										</div> -->
+									</div>
                     			</div>
                     		</div>  
                    		</form>
@@ -424,8 +430,7 @@ $("#cancelBtn").click(function(){
 		let formData = new FormData();
 		
 		if(!fileCheck(fileObj.name, fileObj.size)){
-			return false;
-			
+			return false;	
 		}
 		
 		for(let i = 0; i < fileList.length; i++){
@@ -438,7 +443,14 @@ $("#cancelBtn").click(function(){
 	    	contentType : false,
 	    	data : formData,									//서버로 전송할 데이터
 	    	type : 'POST',
-	    	dataType : 'json'								//서버로 부터 반환받을 데이터 타입
+	    	dataType : 'json',								//서버로 부터 반환받을 데이터 타입
+    		success : function(result){
+	    		console.log(result);
+	    		showUploadImage(result);
+	    	},
+	    	error : function(result){
+	    		alert("이미지 파일이 아닙니다.");
+	    	}
 		});
 		
 		// 서버로 전송하는 데이터 형태 확인
@@ -473,6 +485,26 @@ $("#cancelBtn").click(function(){
 	}
 	// 파일 업로드
 	
+	/* 이미지 출력 */
+	function showUploadImage(uploadResultArr){
+		
+		if(!uploadResultArr || uploadResultArr.length == 0){ //반환받은 result가 없을 경우 출력 x
+			return
+		}	
+		
+		let uploadResult = $("#uploadResult");
+		let obj = uploadResultArr[0];
+		let str = ""; 	//태그 코드 문자열을 저장하기 위한 변수
+			// let fileCallPath = obj.uploadPath.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName; // replace를 사용해도 되지만 아래 인코딩 형식을 사용하면 알아서 적용됌.
+		let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);// display url로 전달할 변수 (썸네일 이미지) (웹브라우저마자 utf-8 설정이 자동으로 추가되지 않을 수도 있으니 encodeURIComponent() 메소드 추가 )
+		str += "<div id='result_card'>";
+		str += "<img src='/display?fileName=" + fileCallPath +"'>";
+		str += "<div class='imgDeleteBtn'>x</div>";
+		str += "</div>";	
+		
+		uploadResult.append(str);  //전달
+	}
+ 
 </script> 	
 </body>
 </html>

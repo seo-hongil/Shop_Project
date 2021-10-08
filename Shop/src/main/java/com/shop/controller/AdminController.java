@@ -3,7 +3,10 @@ package com.shop.controller;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +14,9 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shop.model.AttachImageVO;
 import com.shop.model.Criteria;
 import com.shop.model.GoodsVO;
 import com.shop.model.PageDTO;
@@ -144,10 +151,32 @@ public class AdminController {
 			}
 			
 			/* 첨부 파일 업로드 */		
-			@PostMapping("/uploadAjaxAction")
-			public void uploadAjaxActionPOST(MultipartFile[]  uploadFile) {
+			@PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+			public ResponseEntity<List<AttachImageVO>> uploadAjaxActionPOST(MultipartFile[]  uploadFile) {
 				
 				log.info("uploadAjaxActionPOST");
+				
+				/* 이미지 파일 체크(파일이 맞는지 체크는 맨먼저 확인돼야 하니까 앞에 추가 */
+				for(MultipartFile multipartFile: uploadFile) {
+					
+					File checkfile = new File(multipartFile.getOriginalFilename()); 
+					String type = null;
+					
+					try {	//probeCOntentType이 IOException을 일으키니까 try~catch로 처리
+							// probeContentType()를 활용해서 파일의 형태를 파악하고, MIME 타입으로 저장하기 위해 String 변수에 저장
+							 type = Files.probeContentType(checkfile.toPath());
+							 log.info("MIME TYPE : " + type);
+					} catch (IOException e) {
+							e.printStackTrace();
+					} //try~catch 
+					
+					if(!type.startsWith("image")) { 	// 전달하는 String 파라미터를 기준으로 시작하는 String이 맞으면 true,아니면 false를 반환하는 String.startsWith() 메소드를 사용해서 if문 구현
+						
+						List<AttachImageVO> list = null;		// image 형식이 아니니까 null로 반환
+						
+						return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST); 		// 반환시 상태코드가 400인 데이터를 반환하기 위해 ResponseEntity 객체로 return 
+					} //if
+				} //이미지 파일 체크
 				
 				String uploadFolder = "C:\\Users\\shi82\\upload"; 		// file 저장경로
 				
@@ -159,8 +188,7 @@ public class AdminController {
 				String str = sdf.format(date); //  format() 메소드에 date 변수 대입
 				
 				String datePath = str.replace("-", File.separator); 	//윈도우는 -를 \로 바꿔야하기 때문에 경로 구분자를 환경에 맞게 적용되게 하는 separator 변수 사용 
-				
-				
+					
 				/* 폴더 생성 */		
 				File uploadPath = new File(uploadFolder, datePath); //file클래스의 uploadpath 변수를 사용해서 원하는 경로의 디렉터리를 file 객체로 초기화 / 첫번째 인자는 부모 경로, 두번째는 자식경로
 
@@ -168,13 +196,22 @@ public class AdminController {
 					uploadPath.mkdirs();			// 폴더 생성 수행( mkdirs()를 사용해서  여러개 폴더를 생성가능)
 				}
 				
+				// 이미저 정보 담는 객체( 여러 이미지 파일담기위해)
+				List<AttachImageVO> list = new ArrayList();
+				
 				//추가할 파일이 1개가 아니라 multipartFile로 여러개니까 for문 사용
 				for(MultipartFile multipartFile : uploadFile) {
 					
+						AttachImageVO vo = new AttachImageVO();	//이미지 정보담기 위해 참조변수 생성
+						
 						String uploadFileName = multipartFile.getOriginalFilename();		//파일 이름 지정( getOriginalFilename()메소드를 사용해서 view로 전달받은 파일 이름 그대로 사용)	
 						
 						String uuid = UUID.randomUUID().toString(); // randomUUID()로 UUID 이름 얻어오기(국제기구의 표준 식별자(UUID)를 사용, static이라 따로 인스턴스로 지정 x,  메소드를 사용해서 생성된 식별자는 UUID 타입이라 .toString() 메소드를 사용해서 String 타입으로 변환) 
 																									// UUID를 사용하는 이유 : 파일 이름이 같으면 덮어쓰게 됌
+						vo.setFileName(uploadFileName);	//이미지 정보를 객체에 저장
+						vo.setUploadPath(datePath);
+						vo.setUuid(uuid);
+						
 						uploadFileName = uuid + "_" + uploadFileName; // UUID_FILE NAME이 되도록 설정
 						
 						File saveFile = new File(uploadPath, uploadFileName);			// 파일 위치+파일이름을 합친 file객체
@@ -221,6 +258,9 @@ public class AdminController {
 						} catch (Exception e) {
 							e.printStackTrace();
 						} //try~catch
+						list.add(vo);	//이미지를 객체에 담은걸 list 요소에 넣기
 				}//for
+				ResponseEntity<List<AttachImageVO>> result = new ResponseEntity<List<AttachImageVO>>(list, HttpStatus.OK);	// ResponseEntity를 사용해 view로 http 상태코드가 200이고 http body에 이미지 정보를 담은 list 객체를 전송
+				return result;
 			}//파일 업로드
 }
