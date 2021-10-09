@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.shop.mapper.AdminMapper;
 import com.shop.model.AttachImageVO;
@@ -21,6 +22,7 @@ public class AdminServiceImpl implements AdminService{
 	private AdminMapper adminMapper;	
 	
 	/*상품 등록*/
+	@Transactional
 	@Override
 	public void goodsEnroll(GoodsVO good) {
 		log.info("goodsEnroll service 진입");
