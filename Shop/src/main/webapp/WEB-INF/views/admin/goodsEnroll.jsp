@@ -420,9 +420,13 @@ $("#cancelBtn").click(function(){
 	
 	/* 이미지 업로드 */
 	
-	// input에 file 추가
-	
+	// input에 file 추가	
 	$("input[type='file']").on("change", function(e){
+		
+		// (미리보기)이미지 존재시 삭제되게 선진행
+		if($(".imgDeleteBtn").length > 0){
+			deleteFile();
+		}
 		
 		let fileInput = $('input[name="uploadFile"]');
 		let fileList = fileInput[0].files;	// 파일을 Filelist에 담고
@@ -499,12 +503,44 @@ $("#cancelBtn").click(function(){
 		let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);// display url로 전달할 변수 (썸네일 이미지) (웹브라우저마자 utf-8 설정이 자동으로 추가되지 않을 수도 있으니 encodeURIComponent() 메소드 추가 )
 		str += "<div id='result_card'>";
 		str += "<img src='/display?fileName=" + fileCallPath +"'>";
-		str += "<div class='imgDeleteBtn'>x</div>";
-		str += "</div>";	
+		str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";		str += "</div>";	
 		
 		uploadResult.append(str);  //전달
 	}
  
+
+	/* 이미지 삭제 버튼 동작 */
+	$("#uploadResult").on("click", ".imgDeleteBtn", function(e){		//이미지 데이터 안에 클릭하면.삭제버튼을.함수진행
+		deleteFile();
+	});
+	
+	/* 파일 삭제 메서드 */
+	function deleteFile(){
+		
+		let targetFile = $(".imgDeleteBtn").data("file");
+		
+		let targetDiv = $("#result_card");
+		
+		$.ajax({
+			url: '/admin/deleteFile',
+			data : {fileName : targetFile},
+			dataType : 'text',
+			type : 'POST',
+			success : function(result){
+				console.log(result);
+				
+				targetDiv.remove();
+				$("input[type='file']").val(""); //저장한 파일 삭제하기
+				
+			},
+			error : function(result){
+				console.log(result);
+				
+				alert("파일을 삭제하지 못하였습니다.")
+			}
+		});
+		
+	}
 </script> 	
 </body>
 </html>

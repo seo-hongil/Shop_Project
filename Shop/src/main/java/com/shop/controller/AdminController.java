@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -263,4 +264,32 @@ public class AdminController {
 				ResponseEntity<List<AttachImageVO>> result = new ResponseEntity<List<AttachImageVO>>(list, HttpStatus.OK);	// ResponseEntity를 사용해 view로 http 상태코드가 200이고 http body에 이미지 정보를 담은 list 객체를 전송
 				return result;
 			}//파일 업로드
+			
+			
+			/* 이미지 파일 삭제 */
+			@PostMapping("/deleteFile")
+			public ResponseEntity<String> deleteFile(String fileName){				
+				log.info("deleteFile " + fileName);
+				
+				File file = null;
+				
+				try { 	//URLDecoder.decode(), File.delete()메소드 Exception
+					//썸네일 이미지 삭제
+					file = new File("C:\\Users\\shi82\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+					file.delete();
+					
+					// 원본 이미지 삭제
+					String originFileName = file.getAbsolutePath().replace("s_", "");		// 썸네일 경로 얻어온게 있으니까 s_만 문자열을 치환해주면 따로 구할필요 x			
+					log.info("originFileName : " + originFileName);
+					file = new File(originFileName);
+					file.delete();
+					
+				} catch(Exception e) {	
+					e.printStackTrace();
+					return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);	//오류 발생시 fail상태 전달
+				
+				}//try~catch
+				
+				return new ResponseEntity<String>("success", HttpStatus.OK);
+			}// deleteFile
 }
