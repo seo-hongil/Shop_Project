@@ -98,3 +98,12 @@ insert into shop_bcate(tier, cateName, cateCode) values (1, '여성', '200000');
         
 /* 상품 테이블에 카테고리 외래키 추가 */
 	alter table shop_goods add foreign key (cateCode) references shop_bcate(cateCode);        
+
+/* 상품 이미지 테이블 */
+	 create table shop_image(
+        uuid varchar2(100)not null primary key,
+        goodId number,
+        fileName varchar2(100) not null,
+        uploadPath varchar2(200) not null,
+        foreign key (goodId) references shop_goods(goodId)
+    );

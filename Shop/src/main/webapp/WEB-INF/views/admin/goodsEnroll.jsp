@@ -118,7 +118,7 @@
                     		</div>
                     		<div class="form_section">
                     			<div class="form_section_title">
-                    				<label>상품 이미지</label>
+                    				<label>상품 이미지(최대 5장)</label>
                     			</div>
                     			<div class="form_section_content">
 									<input type="file"  multiple  id ="fileItem"  name='uploadFile'  style="height: 30px;">	
@@ -496,17 +496,24 @@ $("#cancelBtn").click(function(){
 			return
 		}	
 		
-		let uploadResult = $("#uploadResult");
-		let obj = uploadResultArr[0];
-		let str = ""; 	//태그 코드 문자열을 저장하기 위한 변수
-			// let fileCallPath = obj.uploadPath.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName; // replace를 사용해도 되지만 아래 인코딩 형식을 사용하면 알아서 적용됌.
-		let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);// display url로 전달할 변수 (썸네일 이미지) (웹브라우저마자 utf-8 설정이 자동으로 추가되지 않을 수도 있으니 encodeURIComponent() 메소드 추가 )
-		str += "<div id='result_card'>";
-		str += "<img src='/display?fileName=" + fileCallPath +"'>";
-		str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";		str += "</div>";	
-		
-		uploadResult.append(str);  //전달
-	}
+		for(let i=0; i<5; i++){	//여러개의 이미지 출력을 위한 for문
+			let uploadResult = $("#uploadResult");
+			let obj = uploadResultArr[i];
+			let str = ""; 	//태그 코드 문자열을 저장하기 위한 변수
+				// let fileCallPath = obj.uploadPath.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName; // replace를 사용해도 되지만 아래 인코딩 형식을 사용하면 알아서 적용됌.
+			let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);// display url로 전달할 변수 (썸네일 이미지) (웹브라우저마자 utf-8 설정이 자동으로 추가되지 않을 수도 있으니 encodeURIComponent() 메소드 추가 )
+			str += "<div id='result_card'>";
+			str += "<img src='/display?fileName=" + fileCallPath +"'>";
+			str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";		
+			str += "<input type='hidden' name='imageList["+i+"].fileName' value='"+ obj.fileName +"'>";
+			str += "<input type='hidden' name='imageList["+i+"].uuid' value='"+ obj.uuid +"'>";
+			str += "<input type='hidden' name='imageList["+i+"].uploadPath' value='"+ obj.uploadPath +"'>";
+			str += "</div>";	
+			
+			uploadResult.append(str);  //전달
+			
+		}//for
+	} //showUploadImage
  
 
 	/* 이미지 삭제 버튼 동작 */
@@ -538,9 +545,8 @@ $("#cancelBtn").click(function(){
 				
 				alert("파일을 삭제하지 못하였습니다.")
 			}
-		});
-		
-	}
+		}); //ajax
+	}//deleteFile()
 </script> 	
 </body>
 </html>
