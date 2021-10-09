@@ -3,15 +3,22 @@ package com.shop.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+
+import com.shop.model.AttachImageVO;
+import com.shop.service.AttachService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -19,6 +26,10 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class ShopController {
 
+	@Autowired
+	private AttachService attachService;
+	
+		/* 메인 페이지 이동*/
 		@RequestMapping("/main")
 		public void mainPageGET(){
 			
@@ -49,5 +60,15 @@ public class ShopController {
 			}
 			
 			return result;
+		}
+		
+		/* 이미지 반환 */
+		// script에서 json을 이용해 출력할거니까 json 형식으로 반환하기위해 produces 속성 추가
+		@GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+		public ResponseEntity<List<AttachImageVO>> getAttachList(int goodId){
+			
+			log.info("getAttachList" + goodId);
+			
+			return new ResponseEntity(attachService.getAttachList(goodId), HttpStatus.OK);
 		}
 }

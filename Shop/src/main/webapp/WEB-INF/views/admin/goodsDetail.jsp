@@ -33,6 +33,16 @@
                     		</div>
                     		<div class="form_section">
                     			<div class="form_section_title">
+                    				<label>상품 이미지</label>
+                    			</div>
+                    			<div class="form_section_content">
+									<div id="uploadReslut">
+																		
+									</div>
+                    			</div>
+                    		</div>
+                    		<div class="form_section">
+                    			<div class="form_section_title">
                     				<label>등록 날짜</label>
                     			</div>
                     			<div class="form_section_content">
@@ -282,6 +292,39 @@
 					}
 				});	
 				
+				
+				/* 이미지 정보 호출 */
+				
+				let goodId = '<c:out value="${goodsInfo.goodId}"/>';
+				let uploadReslut = $("#uploadReslut");
+				
+				// GET방식 요청,응답하는 서버에서 인코딩된 JSON 데이터를 전달받기 위해 getJSON 메소드 사용
+				$.getJSON("/getAttachList", {goodId : goodId}, function(arr){	//(UL,DATA,success 콜백)
+					
+					if(arr.length == 0){		// 이미지 없을 경우 아래 로직 할 필요 x	
+						let str = "";
+						str += "<div id='result_card'>";
+						str += "<img src='/resources/img/noimage.png'>";
+						str += "</div>";
+						
+						uploadReslut.html(str);	
+						return;
+					}	
+					
+					for(let i=0; i<arr.length; i++){	//이미지 출력
+						
+							let str = "";
+							let obj = arr[i];
+							
+							let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" +obj.fileName);
+							str += "<div id='result_card'";
+							str += "data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
+							str += ">";
+							str += "<img src='/display?fileName=" + fileCallPath +"'>";
+							str += "</div>";	
+							uploadReslut.append(str);	
+					}	//for
+				});	//getJSON
 		}); //ready
 	
 		

@@ -226,6 +226,7 @@ input[name='postedDate'] {
     font-weight: 300;    
 }
 
+/* 이미지 */
 #result_card img{
 		max-width: 100%;
 	    height: auto;

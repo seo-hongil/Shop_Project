@@ -496,7 +496,7 @@ $("#cancelBtn").click(function(){
 			return
 		}	
 		
-		for(let i=0; i<5; i++){	//여러개의 이미지 출력을 위한 for문
+		for(let i=0; i<uploadResultArr.length; i++){	//여러개의 이미지 출력을 위한 for문
 			let uploadResult = $("#uploadResult");
 			let obj = uploadResultArr[i];
 			let str = ""; 	//태그 코드 문자열을 저장하기 위한 변수
