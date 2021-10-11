@@ -17,4 +17,5 @@ public interface AdminMapper {
 	public int goodsModify(GoodsVO vo);							//상품 수정
 	public int goodsDelete(int	goodId);								// 상품 정보 삭제
 	public void imageEnroll(AttachImageVO vo);				// 이미지 파일 등록
+	public void deleteImageAll(int goodId);						// 지정 상품 이미지 전체 삭제
 }

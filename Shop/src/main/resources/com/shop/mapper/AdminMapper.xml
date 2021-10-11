@@ -75,4 +75,8 @@
 		insert into shop_image(goodId, fileName, uploadPath, uuid) values (#{goodId}, #{fileName}, #{uploadPath}, #{uuid})
 	</insert>
 	
+	<!-- 지정 상품 이미지 전체 삭제 --> 
+	<delete id="deleteImageAll">	
+		delete FROM shop_image where goodId = #{goodId}	
+	</delete>
   </mapper>

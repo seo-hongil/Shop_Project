@@ -424,9 +424,9 @@ $("#cancelBtn").click(function(){
 	$("input[type='file']").on("change", function(e){
 		
 		// (미리보기)이미지 존재시 삭제되게 선진행
-		if($(".imgDeleteBtn").length > 0){
-			deleteFile();
-		}
+		//if($(".imgDeleteBtn").length > 0){
+		//		deleteFile();
+		//}
 		
 		let fileInput = $('input[name="uploadFile"]');
 		let fileList = fileInput[0].files;	// 파일을 Filelist에 담고

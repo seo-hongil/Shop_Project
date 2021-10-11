@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +33,18 @@
                     				<input name="goodName" value="${goodsInfo.goodName}">
                     				<span class="ck_warn goodName_warn">상품명을 입력해주세요.</span>
                     			</div>
-                    		</div>   		            
+                    		</div>   
+                    		<div class="form_section">
+	                  			<div class="form_section_title">
+	                  				<label>상품 이미지</label>
+	                  			</div>
+	                  			<div class="form_section_content">
+									<input type="file"  multiple id ="fileItem" name='uploadFile' style="height: 30px;">
+									<div id="uploadResult">
+																	
+									</div>									
+	                  			</div>
+                    		</div>		            
                     		<div class="form_section">
                     			<div class="form_section_title">
                     				<label>상품 카테고리</label>
@@ -113,7 +126,7 @@
                     				<textarea name="goodContents" id="goodContents_textarea">${goodsInfo.goodContents}</textarea>
                     				<span class="ck_warn goodContents_warn">제품 상세 설명을 입력해주세요.</span>
                     			</div>
-                    		</div>
+                    		</div>                			
                     		<input type="hidden" name='goodId' value="${goodsInfo.goodId}">
                    		</form>
                    			<div class="btn_section">
@@ -290,6 +303,44 @@
 			$(".span_discount").html(discountPrice);
 			$("#discount_interface").val(discountRate);
 			//할인율
+			
+			/* 기존 이미지 출력 */
+			let goodId = '<c:out value="${goodsInfo.goodId}"/>';
+			let uploadResult = $("#uploadResult");
+			
+			$.getJSON("/getAttachList", {goodId : goodId}, function(arr){
+				
+				console.log(arr);
+				
+				if(arr.length == 0){
+					
+					
+					let str = "";
+					str += "<div id='result_card_' class='noimage'>";
+					str += "<img src='/resources/img/noimage.png'>";
+					str += "</div>";
+					
+					uploadResult.html(str);				
+					return;
+				}
+				for(let i=0; i<arr.length; i++){
+					let str = "";
+					let obj = arr[i];
+					
+					let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+					str += "<div id='result_card'";
+					str += "data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
+					str += ">";
+					str += "<img src='/display?fileName=" + fileCallPath +"'>";
+					str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
+					str += "<input type='hidden' name='imageList[i].fileName' value='"+ obj.fileName +"'>";
+					str += "<input type='hidden' name='imageList[i].uuid' value='"+ obj.uuid +"'>";
+					str += "<input type='hidden' name='imageList[i].uploadPath' value='"+ obj.uploadPath +"'>";				
+					str += "</div>";
+					
+					uploadResult.append(str);			
+				} //for
+			});// GetJSON
 			
 		}); // ready
 				
@@ -528,6 +579,107 @@
 				moveForm.attr("method", "post");
 				moveForm.submit();
 			});
+			
+			/* 이미지 삭제 버튼 동작 */
+			$("#uploadResult").on("click", ".imgDeleteBtn", function(e){
+				
+				deleteFile();
+				
+			});
+			
+			/* 이미지 삭제 메소드 */
+			function deleteFile(){
+			
+				$("#result_card").remove(); 	// 이미지 삭제 요청시 뷰에서만 제거 되고, 서버로 전송된 후 저장될 때 삭제가 진행될 수 있게 div 만 제거
+			}
+			
+			/* 이미지 업로드 */
+			$("input[type='file']").on("change", function(e){
+											
+				// 이미지 존재시 삭제
+					if($(".noimage").length > 0){
+							deleteFile();
+					}
+			
+							
+					let formData = new FormData();
+					let fileInput = $('input[name="uploadFile"]');
+					let fileList = fileInput[0].files;
+					let fileObj = fileList[0];
+					
+					if(!fileCheck(fileObj.name, fileObj.size)){
+						return false;
+					}
+					
+					for(let i = 0; i < fileList.length; i++){
+						formData.append("uploadFile", fileList[i]);
+					}
+					
+				$.ajax({
+					url: '/admin/uploadAjaxAction',
+			    	processData : false,
+			    	contentType : false,
+			    	data : formData,
+			    	type : 'POST',
+			    	dataType : 'json',
+			    	success : function(result){
+			    		console.log(result);
+			    		showUploadImage(result);
+			    	},
+			    	error : function(result){
+			    		alert("이미지 파일이 아닙니다.");
+			    	}
+				});		//ajax
+				
+			});//input[file]
+				
+			/* 이미지 파일 형식 체크 */
+			let regex = new RegExp("(.*?)\.(jpg|png)$");
+			let maxSize = 1048576; //1MB	
+			
+			function fileCheck(fileName, fileSize){
+
+				if(fileSize >= maxSize){
+					alert("파일 사이즈 초과");
+					return false;
+				}
+					  
+				if(!regex.test(fileName)){
+					alert("해당 종류의 파일은 업로드할 수 없습니다.");
+					return false;
+				}
+				
+				return true;		
+				
+			}
+			
+			/* 이미지 출력 */
+			function showUploadImage(uploadResultArr){
+				
+				// 전달받은 데이터 검증
+				if(!uploadResultArr || uploadResultArr.length == 0){
+					return
+				}
+				
+					let uploadResult = $("#uploadResult");
+				
+					for(let i=0; i<uploadResultArr.length; i++){	//여러개의 이미지 출력을 위한 for문
+					
+					let obj = uploadResultArr[i];
+					let str = ""; 	//태그 코드 문자열을 저장하기 위한 변수
+					
+					let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);// display url로 전달할 변수 (썸네일 이미지) (웹브라우저마자 utf-8 설정이 자동으로 추가되지 않을 수도 있으니 encodeURIComponent() 메소드 추가 )
+					str += "<div id='result_card'>";
+					str += "<img src='/display?fileName=" + fileCallPath +"'>";
+					str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";		
+					str += "<input type='hidden' name='imageList["+i+"].fileName' value='"+ obj.fileName +"'>";
+					str += "<input type='hidden' name='imageList["+i+"].uuid' value='"+ obj.uuid +"'>";
+					str += "<input type='hidden' name='imageList["+i+"].uploadPath' value='"+ obj.uploadPath +"'>";
+					str += "</div>";	
+					
+					uploadResult.append(str);  //전달  
+				}  
+			}
 	</script> 		
 </body>
 </html>
