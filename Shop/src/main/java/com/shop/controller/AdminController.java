@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -143,6 +145,31 @@ public class AdminController {
 				
 				log.info("goodsDeletePOST controller 진입 ");
 				
+				// 먼저 file 정보를 얻어와서 삭제하기 위한 로직
+				List<AttachImageVO> fileList = adminService.getAttachInfo(goodId);
+				
+				if(fileList != null) {	//file이 있으면 
+					
+					List<Path> pathList = new ArrayList();
+					
+					fileList.forEach(vo ->{
+						
+						// 원본 이미지
+						Path path = Paths.get("C:\\Users\\shi82\\upload", vo.getUploadPath(), vo.getUuid() + "_" + vo.getFileName());
+						pathList.add(path);
+						
+						// 섬네일 이미지
+						path = Paths.get("C:\\Users\\shi82\\upload", vo.getUploadPath(), "s_" + vo.getUuid()+"_" + vo.getFileName());
+						pathList.add(path);
+						
+					});
+					
+					pathList.forEach(path ->{	//파일,썸네일 삭제
+						path.toFile().delete();
+					});
+					
+				}
+				// 이미지 파일 먼저 삭제 후 상품 정보 삭제
 				int result = adminService.goodsDelete(goodId);
 				
 				rttr.addFlashAttribute("delete_result", result);

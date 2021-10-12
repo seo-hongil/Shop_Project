@@ -40,7 +40,7 @@ public class AttachFileCheckTask {
 			return str.replace("-", File.separator);
 		}	
 		
-		@Scheduled(cron="0 * * * * *")	//새벽 1시마다 실행
+		@Scheduled(cron="0 0 1 * * *")	//새벽 1시마다 실행
 		public void checkFiles() throws Exception{	
 			
 			log.warn("File Check Task Run.........."); //console 출력을 위해 log.warn 사용

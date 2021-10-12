@@ -76,7 +76,7 @@ public class AdminServiceImpl implements AdminService{
 	@Transactional
 	@Override
 	public int goodsModify(GoodsVO vo) {
-		
+
 		int result = adminMapper.goodsModify(vo);
 		
 		if(result == 1 && vo.getImageList() != null && vo.getImageList().size() > 0) {
@@ -85,10 +85,10 @@ public class AdminServiceImpl implements AdminService{
 					
 					vo.getImageList().forEach(attach -> {
 				
-					attach.setGoodId(vo.getGoodId());
-					adminMapper.imageEnroll(attach);
+						attach.setGoodId(vo.getGoodId());
+						adminMapper.imageEnroll(attach);
 				
-		});
+					});
 			
 		}
 		
@@ -97,10 +97,21 @@ public class AdminServiceImpl implements AdminService{
 
 	/* 상품 삭제 */
 	@Override
+	@Transactional
 	public int goodsDelete(int goodId) {
 			
 		log.info("goodsDelete service 진입");
+		adminMapper.deleteImageAll(goodId);	// DB 이미지 정보 먼저 삭제
 		
 		return adminMapper.goodsDelete(goodId);
+	}
+
+	/* 지정 상품 이미지 정보 얻기 */
+	@Override
+	public List<AttachImageVO> getAttachInfo(int goodId) {
+		
+		log.info("getAttachInfo........");
+		
+		return adminMapper.getAttachInfo(goodId);
 	}
 }
