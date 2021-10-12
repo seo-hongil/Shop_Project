@@ -9,6 +9,7 @@ public class Criteria {
     private int amount;			//페이지 표시 개수
     private String type;			//검색 타입
     private String keyword;	//검색 키워드
+    private String cateCode;	//카테고리 코드
     
     /* Criteria 생성자 */
     public Criteria(int pageNum, int amount) {

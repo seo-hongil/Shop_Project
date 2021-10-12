@@ -1,20 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
      <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Welcome Hong ShoppingMall</title>
-<link rel="stylesheet"  href="resources/css/main.css">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<title>search page</title>
+<link rel="stylesheet"  href="resources/css/search.css">
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous">
 </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
 
@@ -62,7 +60,7 @@
                 				<select name="type">
                 					<option value="T">책 제목</option>
                 				</select>
-                				<input type="text" name="keyword">
+                				<input type="text" name="keyword"  value ="<c:out value="${pageMaker.cri.keyword }"/>">
                     			<button class='btn search_btn'>검 색</button>                				
                 			</div>
                 		</form>
@@ -90,41 +88,11 @@
 			</div>
 			<div class="clearfix"></div>			
 		</div>
-		<div class="navi_bar_area">
-			<h1>navi area</h1>
-		</div>
 		<div class="content_area">
-
-			<!--  slide area -->
-			<div class="slider">
-			    <ul class="slides">
-			      <li>
-			        <img src="img src='../..//resources/img/image1.png">
-			        <div class="caption center-align">
-			          <h3>GrandOpen</h3>
-			          <h5 class="light grey-text text-lighten-3">HongShop</h5>
-			        </div>
-			      </li>
-			      <li>
-			        <img src="img src='../../resources/img/image2.png"> 
-			        <div class="caption left-align">
-			          <h3>Hello Hong Shop</h3>
-			          <h5 class="light grey-text text-lighten-3">Hello HongShop</h5>
-			        </div>
-			      </li>
-			      <li>
-			        <img src="img src='../..//resources/img/image3.png"> 
-			        <div class="caption right-align">
-			          <h3>OPEN EVENT</h3>
-			          <h5 class="light grey-text text-lighten-3">SALE UP TO 50% OFF</h5>
-			        </div>
-			      </li>
-			    </ul>
-			  </div>
-			  <!-- image slide -->
-			  
-			  <!-- good area-->
-			<div class="list_search_result">
+		
+			<!-- 게시물 o -->
+			<c:if test="${listcheck != 'empty'}">
+				<div class="list_search_result">
 					<table class="type_list">
 						<colgroup>
 							<col width="110">
@@ -134,7 +102,6 @@
 							<col width="120">
 						</colgroup>
 						<tbody id="searchList>">
-						<div class="good_top"><strong class="good_top_name">상품</strong></div>
 							<c:forEach items="${list}" var="list">
 								<tr>
 									<td class="image"></td>
@@ -201,36 +168,38 @@
 				</div>
 				
 				<!-- 페이지 이동을 위한 form 태그   -->
-				<form id="moveForm" action="/main" method="get" >
+				<form id="moveForm" action="/search" method="get" >
 					<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 					<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
 					<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
 					<input type="hidden" name="type" value="${pageMaker.cri.type}">
 				</form>
-		<!-- good area-->
-		
-		<!-- notice area-->
-		<div>
-			<div class= "notice_header">
-			<h1>notice area</h1>
-			</div>
-			<ul>
-				<li>
-					
-				</li>
-			</ul>
-		</div>
-			<!-- notice area-->
+			</c:if>
 			
-		</div> <!-- content area -->
-		
+			<!-- 게시물 x -->
+			<c:if test="${listcheck == 'empty'}">
+				<div class="table_empty">
+					검색결과가 없습니다.
+				</div>
+			</c:if>
+		</div>
 		
 	 <%@ include file="../include/footer.jsp" %>   
 	</div> <!--  wrap -->
 </div> <!-- wrapper -->
 
 <script>
- 
+	/* Type 정보가 있을 경우 select에 넣기 위한 로직 */
+	$(document).ready(function(){
+		
+		// 검색 type selected
+		const selectedType = '<c:out value="${pageMaker.cri.type}"/>';
+		if(selectedType != ""){
+			$("select[name='type']").val(selectedType).attr("selected", "selected");	
+		}
+		
+	});// ready
+	
     /* gnb_area 로그아웃 버튼 작동 */
     $("#gnb_logout_button").click(function(){
    
@@ -242,14 +211,7 @@
         	     document.location.reload();
         	}
         })
-    });// 로그아웃
-    
-    
-    /* image slide */
-    $(document).ready(function(){
-    	  $('.slider').slider();
-    });	// image slide
-    
+    });	// 로그아웃 
     
     /* 페이지 이동 버튼 */
     const moveForm = $('#moveForm');
@@ -264,8 +226,7 @@
 		
 	});	// 페이지 이동
 	
-    
+	
 </script>
-
 </body>
 </html>

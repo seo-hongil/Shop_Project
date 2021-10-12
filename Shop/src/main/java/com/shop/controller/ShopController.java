@@ -12,13 +12,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import com.shop.model.AttachImageVO;
+import com.shop.model.Criteria;
+import com.shop.model.GoodsVO;
+import com.shop.model.PageDTO;
 import com.shop.service.AttachService;
+import com.shop.service.GoodService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -29,11 +34,25 @@ public class ShopController {
 	@Autowired
 	private AttachService attachService;
 	
+	@Autowired
+	private GoodService goodService;
+	
 		/* 메인 페이지 이동*/
 		@RequestMapping("/main")
-		public void mainPageGET(){
-			
+		public void mainPageGET(Criteria cri, Model model){
+				
 				log.info("메인 페이지 진입");
+				
+				cri.setAmount(5);
+				List<GoodsVO> list = goodService.getGoodsList(cri);
+				
+				log.info("pre list : " + list);
+
+				model.addAttribute("list", list);
+				log.info("list : " + list);
+		
+				model.addAttribute("pageMaker", new PageDTO(cri, goodService.goodsGetTotal(cri)));
+
 		}
 		
 		/* 이미지 파일 출력 */
@@ -71,4 +90,30 @@ public class ShopController {
 			
 			return new ResponseEntity(attachService.getAttachList(goodId), HttpStatus.OK);
 		}
+		
+		/* 상품 검색 */
+		@GetMapping("/search")
+		public String searchGoodsGET(Criteria cri, Model model) {
+			
+			log.info("cri : " + cri);
+			
+			List<GoodsVO> list = goodService.getGoodsList(cri);
+			log.info("pre list : " + list);
+			
+			if(!list.isEmpty()) {
+				model.addAttribute("list", list);
+				log.info("list : " + list);
+			} else {
+				model.addAttribute("listcheck", "empty");
+				
+				return "search";
+			}
+			
+			model.addAttribute("pageMaker", new PageDTO(cri, goodService.goodsGetTotal(cri)));
+			
+			
+			return "search";
+			
+		}
+		
 }

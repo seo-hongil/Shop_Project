@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.shop.mapper.GoodMapper">
+		
+		<!-- criteria(검색조건) -->
+		<sql id="criteria">		   
+		  	<trim prefix="(" suffix=") AND" prefixOverrides="AND">
+		  		<foreach item="type" collection="typeArr">
+		  			<trim prefix="AND">
+		  				<choose>
+		  					<when test="type == 'C'.toString()">
+		  						cateCode like '%' || #{cateCode} || '%'
+		  					</when>  					
+		  					<when test="type == 'T'.toString()">
+		  						goodName like '%' || #{keyword} || '%'
+		  					</when>  					
+		  				</choose>
+		  			</trim>
+		  		</foreach>
+		  	</trim>
+		</sql>
+		
+		<!-- 상품 검색 -->
+		<select id="getGoodsList" resultType="com.shop.model.GoodsVO">		
+			<![CDATA[
+			    select * from(
+			        select /*+INDEX_DESC(shop_goods SYS_C008590)*/ rownum as rn, goodId, goodName,			         
+			            (select cateName from shop_bcate where shop_goods.cateCode = shop_bcate.cateCode) cateName, cateCode, goodPrice, goodIntro, goodDiscount, updateDate  
+			        from shop_goods
+			        where 
+		    ]]>
+		    
+		    <include refid="criteria"></include>
+		    
+		    <![CDATA[
+		    		        
+			        rownum <= #{pageNum} * #{amount} 
+		        	)
+		        where rn > (#{pageNum} -1) * #{amount}
+			]]>	  				
+		</select>
+		
+		<!-- 상품 총 개수 -->
+		<select id="goodsGetTotal" resultType="int">		
+			select count(*) from shop_goods
+			where
+			<include refid="criteria"></include> 
+			goodId >0	
+		</select>
+
+	
+  </mapper>
