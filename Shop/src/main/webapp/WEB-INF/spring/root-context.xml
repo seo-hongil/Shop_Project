@@ -4,7 +4,9 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
@@ -34,6 +36,9 @@
     <!-- 트랜잭션을 어노테이션 기반으로 사용하기 위한 태그 -->
     <tx:annotation-driven />
     
+    <!-- Quartz 스케줄러 어노테이션 적용을 위해 추가  -->
+    <task:annotation-driven/>
+    
 	   <!-- gmail설정 -->
 	<bean id="mailSender2" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
 	     <property name="host" value="smtp.gmail.com" />
@@ -49,8 +54,11 @@
 	     </property>
 	</bean>
 
+    
+	
     <mybatis-spring:scan base-package="com.shop.mapper"/>
     <context:component-scan base-package="com.shop.model"></context:component-scan>
     <context:component-scan base-package="com.shop.service"></context:component-scan>
+    <context:component-scan base-package="com.shop.task"></context:component-scan>
     
 </beans>

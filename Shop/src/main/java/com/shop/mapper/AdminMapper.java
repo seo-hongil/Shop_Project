@@ -18,4 +18,5 @@ public interface AdminMapper {
 	public int goodsDelete(int	goodId);								// 상품 정보 삭제
 	public void imageEnroll(AttachImageVO vo);				// 이미지 파일 등록
 	public void deleteImageAll(int goodId);						// 지정 상품 이미지 전체 삭제
+	public List<AttachImageVO> checkFileList();				// 어제 날짜의 이미지 리스트
 }

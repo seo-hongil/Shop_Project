@@ -17,8 +17,8 @@ public class AdminMapperTest {
 
 	@Autowired
 	private AdminMapper mapper;
-//	
-//	/* 상품 등록 */
+
+	/* 상품 등록 */
 //	@Test
 //	public void goodEnrollTest() throws Exception{
 //		
@@ -47,15 +47,22 @@ public class AdminMapperTest {
 //		
 //	}
 	/* 상품 조회 페이지 */
+//	@Test
+//	public void goodsGetDetailTest() {
+//		
+//		int goodId = 150;
+//		
+//		GoodsVO result = mapper.goodsGetDetail(goodId);
+//		
+//		System.out.println("상품 조회 데이터 : " + result);
+//		
+//		
+//	}
+	/* 어제자 날짜 이미지 리스트 */
 	@Test
-	public void goodsGetDetailTest() {
+	public void checkImageListTest() {
 		
-		int goodId = 150;
-		
-		GoodsVO result = mapper.goodsGetDetail(goodId);
-		
-		System.out.println("상품 조회 데이터 : " + result);
-		
+		mapper.checkFileList();
 		
 	}
 }
