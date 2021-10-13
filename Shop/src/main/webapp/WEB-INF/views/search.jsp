@@ -58,7 +58,7 @@
                 		<form id="searchForm" action="/search" method="get">
                 			<div class="search_input">
                 				<select name="type">
-                					<option value="T">책 제목</option>
+                					<option value="T">상품명</option>
                 				</select>
                 				<input type="text" name="keyword"  value ="<c:out value="${pageMaker.cri.keyword }"/>">
                     			<button class='btn search_btn'>검 색</button>                				
@@ -104,7 +104,11 @@
 						<tbody id="searchList>">
 							<c:forEach items="${list}" var="list">
 								<tr>
-									<td class="image"></td>
+									<td class="image">
+										<div class="image_wrap" data-goodid="${list.imageList[0].goodId}" data-path="${list.imageList[0].uploadPath}" data-uuid="${list.imageList[0].uuid}" data-filename="${list.imageList[0].fileName}">
+											<img>
+										</div>
+									</td>
 									<td class="detail">
 										<div class="category">
 											[${list.cateName}]
@@ -197,6 +201,27 @@
 		if(selectedType != ""){
 			$("select[name='type']").val(selectedType).attr("selected", "selected");	
 		}
+		
+		/* 이미지 삽입 */
+		$(".image_wrap").each(function(i, obj){	// image_wrap을 다 돌면서 하나씩 적용
+			
+			const bobj = $(obj);	
+			
+			if(bobj.data("goodid")){
+				const uploadPath = bobj.data("path");
+				const uuid = bobj.data("uuid");
+				const fileName = bobj.data("filename");
+				
+				// /display 파라미터로 전달하기 위한 fileName 데이터
+				const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
+				
+				// ..image_wrap의 div 태그 안의 img 태그를 호출 후 src속성에 url적용
+				$(this).find("img").attr('src', '/display?fileName=' + fileCallPath);
+				
+			}else {
+				$(this).find("img").attr('src', '/resources/img/noimage.png');
+			}	//if~else
+		});	// 이미지 삽입
 		
 	});// ready
 	
