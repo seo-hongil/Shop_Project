@@ -50,5 +50,51 @@
 			goodId >0	
 		</select>
 
+	<!-- 남성 카테고리 리스트 -->
+	<select id="getCateCode1" resultType="com.shop.model.CateVO">
+	
+		<![CDATA[
+			select * from shop_bcate where cateCode > 100000 and cateCode < 200000
+		]]>
+	</select>
+	
+	<!-- 여성 카테고리 리스트 -->
+	<select id="getCateCode2" resultType="com.shop.model.CateVO">
+	
+		<![CDATA[
+			select * from shop_bcate where cateCode > 200000 and cateCode < 300000
+		]]>
+	
+	</select>
+	
+	<!-- 검색 대상 카테고리 리스트 -->
+	<select id="getCateList" resultType="String">
+		select DISTINCT cateCode from shop_goods where 
+		
+		<foreach item="type" collection="typeArr">		
+  				<choose>
+  					<when test="type == 'T'.toString()">
+  						goodName like '%' || #{keyword} || '%'
+  					</when>  					
+  				</choose>
+  		</foreach>
+	
+	</select>
+	
+	<!-- 카테고리 정보(+검색대상 갯수) -->	
+	<select id="getCateInfo" resultType="com.shop.model.CateFilterDTO">
+		select DISTINCT count(*) cateCount, a.cateCode, b.cateName from shop_goods a left join shop_bcate b on a.cateCode = b.cateCode 		
+		where 
+		
+		<foreach item="type" collection="typeArr">		
+  				<choose> 							
+  					<when test="type == 'T'.toString()">
+  						goodName like '%' || #{keyword} || '%' and a.cateCode = #{cateCode}						 
+  					</when>				  					
+  				</choose>
+  		</foreach>
+  		
+  		group by a.cateCode, b.cateName
+	</select>
 	
   </mapper>

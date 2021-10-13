@@ -81,7 +81,7 @@
                 <c:if test="${ member != null }">
             		<div class="login_success_area">
                         <span>회원 : ${member.memberName}</span>
-                        <span>충전금액 :  <fmt:formatNumber value="${member.money }" pattern="\#,###.##"/></span>
+                        <span>충전금액 :  <fmt:formatNumber value="${member.money }" pattern="#,###.##"/></span>
                         <span>포인트 : <fmt:formatNumber value="${member.point }" pattern="#,###" /></span>
                   		<a href="/member/logout">로그아웃</a>
                     </div>
@@ -91,11 +91,34 @@
 			<div class="clearfix"></div>			
 		</div>
 		<div class="navi_bar_area">
-			<h1>navi area</h1>
-		</div>
+			<div class="dropdown">
+			 <button class="dropbtn">남성
+			      <i class="fa fa_caret_down"></i>
+			    </button>
+			    <div class="dropdown_content">	          		      
+			    		<c:forEach items="${cate1}" var="cate"> 
+			    			<a href="search?type=C&cateCode=${cate.cateCode}">${cate.cateName}</a>
+			    		</c:forEach>	    
+			    </div>			
+			</div>
+			<div class="dropdown">
+			    <button class="dropbtn">여성
+			      <i class="fa fa_caret_down"></i>
+			    </button>
+			    <div class="dropdown_content">
+			    	<c:forEach items="${cate2}" var="cate"> 
+			    		<a href="search?type=C&cateCode=${cate.cateCode}">${cate.cateName}</a>
+			    	</c:forEach>       		      		      
+			    </div>			
+			    
+			</div><!-- dropdown -->
+		</div><!-- navi_bar_area -->
+		
+		<!-- contents -->
 		<div class="content_area">
-
+			
 			<!--  slide area -->
+			 
 			<div class="slider">
 			    <ul class="slides">
 			      <li>
@@ -121,9 +144,11 @@
 			      </li>
 			    </ul>
 			  </div>
+			  
 			  <!-- image slide -->
 			  
 			  <!-- good area-->
+			 
 			<div class="list_search_result">
 					<table class="type_list">
 						<colgroup>
@@ -178,6 +203,7 @@
 				</div>
 				
 				<!-- 페이지 이동 인터페이스 -->
+				 
 				<div class="pageMaker_wrap">
 					<ul class="pageMaker">
 	                			

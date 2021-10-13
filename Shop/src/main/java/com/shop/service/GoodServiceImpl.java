@@ -1,5 +1,6 @@
 package com.shop.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.shop.mapper.AttachMapper;
 import com.shop.mapper.GoodMapper;
 import com.shop.model.AttachImageVO;
+import com.shop.model.CateFilterDTO;
+import com.shop.model.CateVO;
 import com.shop.model.Criteria;
 import com.shop.model.GoodsVO;
 
@@ -50,6 +53,43 @@ public class GoodServiceImpl implements GoodService{
 		log.info("goodsGetTotal().......");
 		
 		return goodMapper.goodsGetTotal(cri);
+	}
+	
+	/* 남성 카테고리 리스트 */
+	@Override
+	public List<CateVO> getCateCode1() {
+		
+		log.info("getCateCode1().........");
+		
+		return goodMapper.getCateCode1();
+	}
+	
+	/* 여성 카테고리 리스트 */
+	@Override
+	public List<CateVO> getCateCode2() {
+		
+		log.info("getCateCode2().........");
+		
+		return goodMapper.getCateCode2();
+	}
+	
+	/* 검색결과 카테고리 필터 정보 */
+	@Override
+	public List<CateFilterDTO> getCateInfoList(Criteria cri) {
+	
+		List<CateFilterDTO> filterInfoList = new ArrayList<CateFilterDTO>();	// 반환 데이터 객체 선언
+		
+		String[] cateList = goodMapper.getCateList(cri);	// 필터링된 카테고리 코드의 반환값을 변수에 대입
+		
+		String tempCateCode = cri.getCateCode();	// 카테고리 정보의 카테코드 임시저장
+		
+		for(String cateCode : cateList) {
+			cri.setCateCode(cateCode);		//카테코드 넣고
+			CateFilterDTO filterInfo = goodMapper.getCateInfo(cri);	// 카테고리 정보를 변수에 저장
+			filterInfoList.add(filterInfo);	//반환할 list 객체에 추가
+		}
+		cri.setCateCode(tempCateCode);	// 임시저장해둔 카테코드를 cri에 대입
+		return filterInfoList;
 	}
 
 }

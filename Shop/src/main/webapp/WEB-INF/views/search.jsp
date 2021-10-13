@@ -92,6 +92,33 @@
 		
 			<!-- 게시물 o -->
 			<c:if test="${listcheck != 'empty'}">
+				<div class="search_filter">
+					<div class="filter_button_wrap">
+						<button class="filter_button filter_active" id="filter_button_a">남성</button>
+						<button class="filter_button" id="filter_button_b">여성</button>
+					</div>	
+					<div class="filter_content filter_a">
+						<c:forEach items="${filter_info}" var="filter">
+							<c:if test="${filter.cateGroup eq '1'}">
+								<a href="${filter.cateCode}">${filter.cateName}(${filter.cateCount})</a>
+							</c:if>
+						</c:forEach>
+					</div>
+					<div class="filter_content filter_b">
+						<c:forEach items="${filter_info}" var="filter">
+							<c:if test="${filter.cateGroup eq '2'}">
+								<a href="${filter.cateCode}">${filter.cateName}(${filter.cateCount})</a>
+							</c:if>
+						</c:forEach>
+					</div>	
+					
+					<form id="filter_form" action="/search" method="get" >
+						<input type="hidden" name="keyword">
+						<input type="hidden" name="cateCode">
+						<input type="hidden" name="type">
+					</form>	
+										
+				</div>
 				<div class="list_search_result">
 					<table class="type_list">
 						<colgroup>
@@ -177,6 +204,7 @@
 					<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
 					<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
 					<input type="hidden" name="type" value="${pageMaker.cri.type}">
+					<input type="hidden" name="cateCode" value="<c:out value="${pageMaker.cri.cateCode}"/>">
 				</form>
 			</c:if>
 			
@@ -251,6 +279,44 @@
 		
 	});	// 페이지 이동
 	
+	/* 필터링 결과 코드 */
+	
+	/* 검색 필터 */
+	let buttonA = $("#filter_button_a");	// 남성
+	let buttonB = $("#filter_button_b");	// 여성
+	
+	buttonA.on("click", function(){	//남성 선택시 여성 div 속성 숨김 / 남성 버튼 active 속성 추가
+		$(".filter_b").css("display", "none");
+		$(".filter_a").css("display", "block");		
+		buttonA.attr("class", "filter_button filter_active");
+		buttonB.attr("class", "filter_button");
+	});
+	
+	buttonB.on("click", function(){	//여성 선택시 남성 div 속성 숨김 / 여성 버튼 active 속성 추가
+		$(".filter_a").css("display", "none");
+		$(".filter_b").css("display", "block");
+		buttonB.attr("class", "filter_button filter_active");
+		buttonA.attr("class", "filter_button");		
+	}); // 검색 필터
+	
+	/* 필터링 a 태그 동작 */
+	$(".filter_content a").on("click", function(e){
+		e.preventDefault();
+		
+		let type = '<c:out value="${pageMaker.cri.type}"/>';
+		if(type === 'T'){	// TC일 경우 한번더 붙어 TCC가 되니까 에러 방지
+			type = type + 'C';	
+		}
+		
+		let keyword = '<c:out value="${pageMaker.cri.keyword}"/>';
+		let cateCode= $(this).attr("href");
+		
+		$("#filter_form input[name='keyword']").val(keyword);
+		$("#filter_form input[name='cateCode']").val(cateCode);
+		$("#filter_form input[name='type']").val(type);
+		
+		$("#filter_form").submit();
+	}); //필터링 a 태그 동작
 	
 </script>
 </body>

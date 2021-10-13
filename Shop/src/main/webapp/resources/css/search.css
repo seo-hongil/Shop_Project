@@ -127,12 +127,72 @@ a{
 	margin-top:30px;
 }
 
+/* 필터정보 */
+.search_filter {	/* 버튼이 화면 중앙에 배치 */
+    width: 85%;
+    margin: auto;
+	margin-top: 30px;
+    margin-bottom: 50px;    
+} 
+.filter_button_wrap {
+    width: 100%;
+}
+
+.filter_button_wrap button {	/* 버튼은 반반씩 자리차리 */
+    width: 50%;
+}
+
+.filter_button{	/* 버튼에 색상,테투리 색, float 속성 추가 다른 태그에는 영향 x */
+	background-color: #04AA6D;
+	border: 1px solid green;
+	color: white;
+	padding: 10px 24px;
+	cursor: pointer;
+	float: left;
+} 
+
+.filter_button_wrap:after {	
+    content: "";
+    clear: both;
+    display: table;
+}  	
+
+.filter_button_wrap button:not(:last-child) {	/* 버튼 두개 다 가장자리 색 추가했기 때문에 오른쪽 가장자리는 색상 제거 */
+    border-right: none;
+}
+
+.filter_button:hover {		/* 버튼에 hover시 색 변경 */
+    background-color: #3e8e41;
+}
+
+.filter_active{			/* 버튼 선택시 active 효과 */
+	background-color: #045d3c;
+}
+
+.filter_content{				/* div 태그의 padding과 가장자리 border에 색상추가 */
+	padding:20px 50px 20px 50px;
+	border: 1px solid gray;
+}
+
+.filter_content a:not(:first-child){		/* 첫번째 a 태그를 제외 모든 a 태그 왼쪽 공간 10px 씩*/
+	margin-left: 10px;				
+}
+
+.filter_a{					/* 남성버튼 div에 기본효과 */
+	display: block;	  
+}
+
+.filter_b{					/* 여성버튼 div 효과 없음 */
+	display: none;		
+}
 
 /* 홈페이지 메인 제품 목록  */
 .content_area{
 	width: 100%;
     min-height: 1000px;
 }
+
+
 
 /* 상품 표 */
 	.list_search_result{

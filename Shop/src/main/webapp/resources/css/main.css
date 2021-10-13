@@ -128,18 +128,87 @@ a{
 }
 
 /* 제품 목록 네비 */
-.navi_bar_area{
-	width: 100%;
-    height: 70px;
-    background-color: #7696fd;
+
+.navi_bar_area {
+  overflow: hidden;
+  background-color: #5e6b9e;
 }
 
+
+.navi_bar_area a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+  margin-left: 10px;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;
+  font-weight: bold;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+  width:140px;
+}
+
+
+.dropdown_content {
+	display:none;	/* div 태그 숨기기 */ 
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 466px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown_content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: left;
+  width: 80px;
+}
+
+/* 숨겨진 display:none으로 숨겨진 div 태그가 보이기위한 설정 */
+
+.dropdown:hover .dropdown_content {
+  display: block;
+}
+
+/* div에 hover시 색상 추가 */
+.navi_bar_area a:hover, .dropdown:hover .dropbtn {
+  background-color: #475382;
+}
+
+.dropdown_content a:hover {
+  background-color: #ddd;
+}
+
+
 /* 홈페이지 메인 제품 목록  */
+
 .content_area{
 	width: 100%;
     min-height: 1000px;
 }
+
 /* image slide */
+
 .slider .indicators .indicator-item {
   background-color: #666666;
   border: 3px solid #ffffff;
@@ -151,16 +220,21 @@ a{
   background-color: #ffffff;
 }
 .slider {
+	position : fixed;
   width: 900px;
   margin: 0 auto;
+  z-index : 0;
 }
+
 .slider .indicators {
   bottom: 60px;
   z-index: 100;
-  /* text-align: left; */
+  text-align: left; 
 }
 
+
 /* 상품 표 */
+
 	.list_search_result{
 		width: 90%;
 	    margin: auto;	
@@ -211,7 +285,9 @@ a{
     	font-size: 18px;
 	}
 	
+
 	/* 상품 이미지 관련 */
+	
 	.image_wrap {
 	    width: 100%;
 	    height: 100%;
@@ -224,6 +300,7 @@ a{
 		
 	
 	/* 페이지 버튼 인터페이스 */
+	
 	.pageMaker_wrap{
 		text-align: center;
 	    margin-top: 30px;

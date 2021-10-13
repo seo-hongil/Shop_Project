@@ -38,20 +38,24 @@ public class ShopController {
 	private GoodService goodService;
 	
 		/* 메인 페이지 이동*/
-		@RequestMapping("/main")
+		@GetMapping("/main")
 		public void mainPageGET(Criteria cri, Model model){
-				
-				log.info("메인 페이지 진입");
-				
-				cri.setAmount(5);
-				List<GoodsVO> list = goodService.getGoodsList(cri);
-				
-				log.info("pre list : " + list);
+			log.info("메인 페이지 진입");
+			
+			cri.setAmount(5);
+			List<GoodsVO> list = goodService.getGoodsList(cri);
+			
+			log.info("pre list : " + list);
 
-				model.addAttribute("list", list);
-				log.info("list : " + list);
-		
-				model.addAttribute("pageMaker", new PageDTO(cri, goodService.goodsGetTotal(cri)));
+			model.addAttribute("list", list);
+			log.info("list : " + list);
+			
+			
+			
+			model.addAttribute("cate1", goodService.getCateCode1());
+			model.addAttribute("cate2", goodService.getCateCode2());
+			
+			model.addAttribute("pageMaker", new PageDTO(cri, goodService.goodsGetTotal(cri)));
 
 		}
 		
@@ -111,7 +115,14 @@ public class ShopController {
 			
 			model.addAttribute("pageMaker", new PageDTO(cri, goodService.goodsGetTotal(cri)));
 			
+			// type이 있는 경우만 해당 service 메서드 호출하도록 설정
+			String[] typeArr = cri.getType().split("");
 			
+			for(String s : typeArr) {
+				if(s.equals("T")) {
+					model.addAttribute("filter_info", goodService.getCateInfoList(cri));		
+				}
+			}
 			return "search";
 			
 		}
