@@ -333,9 +333,9 @@
 					str += ">";
 					str += "<img src='/display?fileName=" + fileCallPath +"'>";
 					str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
-					str += "<input type='hidden' name='imageList[i].fileName' value='"+ obj.fileName +"'>";
-					str += "<input type='hidden' name='imageList[i].uuid' value='"+ obj.uuid +"'>";
-					str += "<input type='hidden' name='imageList[i].uploadPath' value='"+ obj.uploadPath +"'>";				
+					str += "<input type='hidden' name='imageList["+i+"].fileName' value='"+ obj.fileName +"'>";
+					str += "<input type='hidden' name='imageList["+i+"].uuid' value='"+ obj.uuid +"'>";
+					str += "<input type='hidden' name='imageList["+i+"].uploadPath' value='"+ obj.uploadPath +"'>";				
 					str += "</div>";
 					
 					uploadResult.append(str);			
@@ -597,23 +597,23 @@
 			$("input[type='file']").on("change", function(e){
 											
 				// 이미지 존재시 삭제
-					if($(".noimage").length > 0){
-							deleteFile();
-					}
-			
-							
-					let formData = new FormData();
-					let fileInput = $('input[name="uploadFile"]');
-					let fileList = fileInput[0].files;
-					let fileObj = fileList[0];
-					
-					if(!fileCheck(fileObj.name, fileObj.size)){
-						return false;
-					}
-					
-					for(let i = 0; i < fileList.length; i++){
-						formData.append("uploadFile", fileList[i]);
-					}
+				if($(".noimage").length > 0){
+						deleteFile();
+				}
+		
+				let formData = new FormData();
+				let fileInput = $('input[name="uploadFile"]');
+				let fileList = fileInput[0].files;
+				let fileObj = fileList[0];
+				
+				
+				if(!fileCheck(fileObj.name, fileObj.size)){
+					return false;
+				}
+
+				for(let i = 0; i < fileList.length; i++){
+					formData.append("uploadFile", fileList[i]);
+				}
 					
 				$.ajax({
 					url: '/admin/uploadAjaxAction',
@@ -660,24 +660,21 @@
 				if(!uploadResultArr || uploadResultArr.length == 0){
 					return
 				}
-				
 					let uploadResult = $("#uploadResult");
-				
-					for(let i=0; i<uploadResultArr.length; i++){	//여러개의 이미지 출력을 위한 for문
 					
-					let obj = uploadResultArr[i];
-					let str = ""; 	//태그 코드 문자열을 저장하기 위한 변수
+					for(let i=0; i<uploadResultArr.length; i++){	//여러개의 이미지 출력을 위한 for문	
+						let obj = uploadResultArr[i];
+						let str = ""; 	//태그 코드 문자열을 저장하기 위한 변수					
+						let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);// display url로 전달할 변수 (썸네일 이미지) (웹브라우저마자 utf-8 설정이 자동으로 추가되지 않을 수도 있으니 encodeURIComponent() 메소드 추가 )
+						str += "<div id='result_card'>";
+						str += "<img src='/display?fileName=" + fileCallPath +"'>";
+						str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";		
+						str += "<input type='hidden' name='imageList["+i+"].fileName' value='"+ obj.fileName +"'>";
+						str += "<input type='hidden' name='imageList["+i+"].uuid' value='"+ obj.uuid +"'>";
+						str += "<input type='hidden' name='imageList["+i+"].uploadPath' value='"+ obj.uploadPath +"'>";
+						str += "</div>";	
 					
-					let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);// display url로 전달할 변수 (썸네일 이미지) (웹브라우저마자 utf-8 설정이 자동으로 추가되지 않을 수도 있으니 encodeURIComponent() 메소드 추가 )
-					str += "<div id='result_card'>";
-					str += "<img src='/display?fileName=" + fileCallPath +"'>";
-					str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";		
-					str += "<input type='hidden' name='imageList["+i+"].fileName' value='"+ obj.fileName +"'>";
-					str += "<input type='hidden' name='imageList["+i+"].uuid' value='"+ obj.uuid +"'>";
-					str += "<input type='hidden' name='imageList["+i+"].uploadPath' value='"+ obj.uploadPath +"'>";
-					str += "</div>";	
-					
-					uploadResult.append(str);  //전달  
+						uploadResult.append(str);  //전달  
 				}  
 			}
 	</script> 		

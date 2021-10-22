@@ -496,6 +496,7 @@ $("#cancelBtn").click(function(){
 			return
 		}	
 		
+	
 		for(let i=0; i<uploadResultArr.length; i++){	//여러개의 이미지 출력을 위한 for문
 			let uploadResult = $("#uploadResult");
 			let obj = uploadResultArr[i];

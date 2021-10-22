@@ -77,7 +77,7 @@
 	
 	<!-- 지정 상품 이미지 전체 삭제 --> 
 	<delete id="deleteImageAll">	
-		delete FROM shop_image where goodId = #{goodId}	
+		delete from shop_image where goodId = #{goodId}	
 	</delete>
 	
 	<!-- 어제자 날자 이미지 리스트 -->
