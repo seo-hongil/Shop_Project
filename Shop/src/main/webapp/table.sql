@@ -107,3 +107,13 @@ insert into shop_bcate(tier, cateName, cateCode) values (1, '여성', '200000');
         uploadPath varchar2(200) not null,
         foreign key (goodId) references shop_goods(goodId)
     );
+    
+    /* 공지사항 테이블 */
+    create table shop_notice(
+    noticeId number generated as identity (start with 1) primary key,	
+    noticeTitle varchar2(100) not null,
+    noticeContents clob,
+    noticeDate date default sysdate
+    );
+    
+    

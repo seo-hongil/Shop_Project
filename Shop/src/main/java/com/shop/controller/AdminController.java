@@ -33,8 +33,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shop.model.AttachImageVO;
 import com.shop.model.Criteria;
 import com.shop.model.GoodsVO;
+import com.shop.model.NoticeDTO;
 import com.shop.model.PageDTO;
 import com.shop.service.AdminService;
+import com.shop.service.NoticeService;
 
 import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -46,7 +48,11 @@ public class AdminController {
 
 		@Autowired
 		private AdminService adminService;
-	
+		
+		@Autowired
+		private NoticeService noticeservice;
+		
+		
 		/* 관리자 메인 페이지 이동 */
 		@GetMapping("/main")
 		public void adminMainGET() throws Exception{
@@ -85,8 +91,32 @@ public class AdminController {
 			
 			return "redirect:/admin/goodsManage";
 		}	
-	    
-	    
+		
+	    /*공지사항 관리 페이지 접속*/
+		@GetMapping("/notice")
+	    public void noticeGET() {
+			log.info("공지사항 페이지 접속");
+			
+		}
+		
+		/* 공지사항 등록 페이지 접속 */
+		@GetMapping("/noticeEnroll")
+		public void noticeEnrollGET() {
+			log.info("공지사항 등록 페이지 접속");
+		}
+		
+		/* 공지사항 등록 */
+		@PostMapping("/noticeEnroll")
+		public String noticeEnrollPOST(NoticeDTO notice, RedirectAttributes rttr ) {
+			log.info("공지사항 등록 ");
+			
+			noticeservice.noticeEnroll(notice);
+
+			rttr.addFlashAttribute("enroll_result", notice.getNoticeTitle());
+			
+			return "redirect:/admin/notice";
+		}
+		
 	    /* 상품 관리 페이지 접속 */
 		  @GetMapping("/goodsManage")
 	    public void goodsManageGET(Criteria cri, Model model) throws Exception{
