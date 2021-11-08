@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항 등록</title>
 <link rel="stylesheet" href="../resources/css/admin/noticeEnroll.css">
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
@@ -47,7 +47,9 @@
                		</div> <!-- wrap -->
 	   		
        <%@ include file="../../include/admin/footer.jsp" %> 
+       
 <script>
+
 		/* 공지사항 내용 위지윅 사용 */
 		ClassicEditor
 		.create(document.querySelector('#noticeContents_textarea'))

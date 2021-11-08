@@ -94,8 +94,19 @@ public class AdminController {
 		
 	    /*공지사항 관리 페이지 접속*/
 		@GetMapping("/notice")
-	    public void noticeGET() {
+	    public void noticeGET(Criteria cri, Model model) throws Exception{
 			log.info("공지사항 페이지 접속");
+			List list = noticeservice.noticeGetList(cri);
+			
+			// 공지사항 리스트 데이터
+			if(!list.isEmpty()) {
+				model.addAttribute("list", list);
+			}else {
+				model.addAttribute("listCheck","empty");
+				return;
+			}
+			// 공지사항 페이지 데이터
+			model.addAttribute("pageMaker", new PageDTO(cri,  noticeservice.noticeGetTotal(cri)));
 			
 		}
 		
