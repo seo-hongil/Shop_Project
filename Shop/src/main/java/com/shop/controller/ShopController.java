@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -127,4 +128,14 @@ public class ShopController {
 			
 		}
 		
+		/* 클라이언트 요청 상품 상세페이지 */
+		@GetMapping("/goodsDetatil/{goodId}")
+		public String goodsDetailGET(@PathVariable("goodId")int goodId, Model model ) {
+			
+			log.info("-----goodsDeatilGet()-----");
+			
+			model.addAttribute("goodsInfo", goodService.getGoodsInfo(goodId));
+			
+			return "/goodsDetail";
+		}
 }

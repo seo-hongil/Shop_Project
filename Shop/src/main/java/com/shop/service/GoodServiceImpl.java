@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shop.mapper.AdminMapper;
 import com.shop.mapper.AttachMapper;
 import com.shop.mapper.GoodMapper;
 import com.shop.model.AttachImageVO;
@@ -25,6 +26,9 @@ public class GoodServiceImpl implements GoodService{
 	
 	@Autowired
 	private AttachMapper attachMapper;
+	
+	@Autowired
+	private AdminMapper adminMapper;
 	
 	/*	 상품 검색 */
 	@Override
@@ -90,6 +94,14 @@ public class GoodServiceImpl implements GoodService{
 		}
 		cri.setCateCode(tempCateCode);	// 임시저장해둔 카테코드를 cri에 대입
 		return filterInfoList;
+	}
+	@Override
+	public GoodsVO getGoodsInfo(int goodId) {
+		GoodsVO goodsInfo = goodMapper.getGoodsInfo(goodId);
+		/* 상품에 imgeList도 같이 넣는 로직 */
+		goodsInfo.setImageList(adminMapper.getAttachInfo(goodId));
+		
+		return goodsInfo;
 	}
 
 }

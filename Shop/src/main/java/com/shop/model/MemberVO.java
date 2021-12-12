@@ -16,6 +16,7 @@ public class MemberVO {
 		private int regDate;					// 등록일자
 		private int money;						// 회원 돈
 		private int point;							// 회원 포인트
+		
 		public String getMemberId() {
 			return memberId;
 		}
