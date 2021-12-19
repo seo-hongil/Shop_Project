@@ -129,7 +129,7 @@ public class ShopController {
 		}
 		
 		/* 클라이언트 요청 상품 상세페이지 */
-		@GetMapping("/goodsDetatil/{goodId}")
+		@GetMapping("/goodsDetail/{goodId}")
 		public String goodsDetailGET(@PathVariable("goodId")int goodId, Model model ) {
 			
 			log.info("-----goodsDeatilGet()-----");

@@ -95,9 +95,13 @@ public class GoodServiceImpl implements GoodService{
 		cri.setCateCode(tempCateCode);	// 임시저장해둔 카테코드를 cri에 대입
 		return filterInfoList;
 	}
+	
+	/* 상세페이지 */
 	@Override
 	public GoodsVO getGoodsInfo(int goodId) {
+		
 		GoodsVO goodsInfo = goodMapper.getGoodsInfo(goodId);
+		
 		/* 상품에 imgeList도 같이 넣는 로직 */
 		goodsInfo.setImageList(adminMapper.getAttachInfo(goodId));
 		

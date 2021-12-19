@@ -141,7 +141,9 @@
 											[${list.cateName}]
 										</div>
 										<div class="title">
-											${list.goodName}
+											<a href="/goodsDetail/${list.goodId}">
+												${list.goodName}
+											</a>
 										</div>
 										<div class="goodIntro">
 										${list.goodIntro} <fmt:formatDate value="${list.updateDate }" pattern="yyyy-MM-dd"/>
