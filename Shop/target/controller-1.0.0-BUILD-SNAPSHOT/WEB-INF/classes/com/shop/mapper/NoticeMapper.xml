@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.shop.mapper.NoticeMapper">
+  
+ <!-- 공지사항 등록 -->
+  <insert id="noticeEnroll" >
+  	insert into shop_notice(noticeTitle, noticeContents) values(#{noticeTitle}, #{noticeContents})
+  </insert>
+  
+  <!-- 공지사항 목록 출력 -->
+   <select id="noticeGetList" resultType="com.shop.model.NoticeDTO">
+  		<![CDATA[
+  		select * from
+  			( select /* +INDEX_DESC(shop_notice SYS_C009422)*/ rownum as rn, noticeId, noticeTitle, noticeContents, noticeDate
+  				from shop_notice 
+  				where 
+  				rownum <= #{pageNum} * #{amount}
+			) 
+  		where rn > (#{pageNum}-1) * #{amount}
+  		]]>   
+  </select>
+  
+  <!-- 공지사항 총 개수 -->
+  <select id="noticeGetTotal" resultType="int">
+  		select count(*) from shop_notice
+  </select>
+    </mapper>

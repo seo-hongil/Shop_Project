@@ -116,17 +116,4 @@ insert into shop_bcate(tier, cateName, cateCode) values (1, '여성', '200000');
     noticeDate date default sysdate
     );
     
-    /* 공지사항 테이블 */
-    create table shop_cart(
-    cartId number generated as identity (start with 1) primary key,
-    memberId varchar2(50),
-    goodId number,
-    goodCount number,
-    foreign key (memberId) references shop_member(memberId),
-    foreign key (goodId) references shop_goods(goodId)
-);
-
-/* 공지사항 중복 등록 방지하기 위해 유니크 추가*/
-alter table shop_cart add unique (memberId, goodId);
-    
     
